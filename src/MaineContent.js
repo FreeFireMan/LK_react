@@ -12,8 +12,7 @@ class MaineContent extends React.Component {
                         <span className="checkmark"></span>
                     </label>
                     <img src={items.baseImage} className="card-img-top" alt="..."/>
-                        <div className="card-body">
-
+                        <div className="card-body">K
                             <h5 className="card-title">Код производителя:{items.partNumber}</h5>
                             <p className="card-text"><a href="#">{items.article}</a></p>
                             <a href="#" className="btn btn-primary">Go somewhere</a>
