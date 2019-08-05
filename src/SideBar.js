@@ -1,21 +1,20 @@
 import React from 'react'
 
 
-class SideBar extends React.Component{
-    constructor(props){
+class SideBar extends React.Component {
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             data: this.props.data,
         }
     }
 
 
+    render() {
 
-            render() {
-
-                return (
-                    <div className="col-md-3">
-                        <div>
+        return (
+            <div className="col-md-3 pl-0">
+                <div>
                     {
                         this.state.data.map((item) =>
                             <div id={item.id} key={item.id}>
@@ -25,9 +24,9 @@ class SideBar extends React.Component{
                                 </label>
                             </div>)
                     }
-                        </div>
-                </div>)
-            }
+                </div>
+            </div>)
+    }
 
 }
 
