@@ -3,7 +3,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SideBar from "./SideBar";
-import MaineContent from "./MaineContent";
+import MaineContent from "./MainContent/MaineContent";
 
 
 class App extends React.Component{
@@ -69,7 +69,7 @@ class App extends React.Component{
                     {
                         !this.state.isLoadingProd &&
 
-                            <MaineContent data={prod_data}/>
+                            <MaineContent data={prod_data} />
                     }
                 </div>
             </div>

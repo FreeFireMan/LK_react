@@ -13,6 +13,7 @@ class SideBar extends React.Component {
 
     render() {
         let children = null;
+        let subChildren = null;
         if (this.state.displayChild){
             children = <div>{
                 this.state.data.children.map((item) =>
