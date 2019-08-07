@@ -10,48 +10,43 @@ class App extends React.Component{
     constructor(props){
         super(props)
         this.state ={
-            tree_data: [],
+            tree_data: {},
             isLoadingTree : true,
-            prod_data : [],
-            isLoadingProd : true,
+             prod_data : [],
+             isLoadingProd : true,
         }
     }
 //-----------get request from api Content House-----------------------
     componentDidMount() {
-        fetch("http://localhost:8080/api/tree")
+        fetch("http://localhost:8080/api/catalog/")
             .then(response => {
+
                 return response.json();
             })
             .then(result => {
+                //console.log(result.children)
                 this.setState({
                     tree_data : result,
                     isLoadingTree : false,
+                    prod_data : result.children.map(item =>{
+                        return item.children
+                    }),
+                    isLoadingProd : false,
+
                 })
             })
             .catch(error => {
                 console.log("MyErrorInFetch tree : "+error)
             })
         //------End load tree data---------------------------------------
-        //------Start load prod loading----------------------------------
-        fetch("http://localhost:8080/api/prod")
-            .then(response => {
-                return response.json();
-            })
-            .then(result => {
-                this.setState({
-                    prod_data : result,
-                    isLoadingProd : false,
-                })
-            })
-            .catch(error => {
-                console.log("MyErrorInFetch prod : "+error)
-            })
+
     }
 
 //------------------------------------------------------------------------
     render() {
-        const {tree_data, prod_data} = this.state;
+        const {tree_data,prod_data} = this.state;
 
+        //console.log(poducts)
     return (
 
         <div id="wrapper" className="container">
@@ -67,12 +62,13 @@ class App extends React.Component{
                     <SideBar data={tree_data}/>
                 }
                 <div id="featured" className="col-md-9">
-                    {
+                   {
                         this.state.isLoadingProd &&
                         <i className="fa fa-spinner fa-spin">Придумать заглушку загрузки</i>
                     }
                     {
                         !this.state.isLoadingProd &&
+
                             <MaineContent data={prod_data}/>
                     }
                 </div>

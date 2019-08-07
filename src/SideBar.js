@@ -6,26 +6,44 @@ class SideBar extends React.Component {
         super(props);
         this.state = {
             data: this.props.data,
+            displayChild: false,
         }
     }
 
 
     render() {
-
-        return (
+        let children = null;
+        if (this.state.displayChild){
+            children = <div>{
+                this.state.data.children.map((item) =>
+                    <div id={item.id} key={item.id}>
+                        <label className="containerForTree">{item.name}
+                            <input type="checkbox"/>
+                            <span className="checkmark"></span>
+                        </label>
+                    </div>)
+            }</div>
+        }
+        return(
             <div className="col-md-3 pl-0">
                 <div>
-                    {
-                        this.state.data.map((item) =>
-                            <div id={item.id} key={item.id}>
-                                <label className="containerForTree">{item.name}
-                                    <input type="checkbox"/>
+                            <div id={this.props.data.id} key={this.props.data.id}>
+                                <label className="containerForTree">{this.props.data.name}
+                                    <input type="checkbox" onClick={this.expandParent}/>
                                     <span className="checkmark"></span>
                                 </label>
-                            </div>)
+                            </div>
+                    {
+                        children
                     }
                 </div>
-            </div>)
+            </div>
+        )
+    }
+    expandParent = () => {
+        this.setState({
+            displayChild: !this.state.displayChild
+        })
     }
 
 }
