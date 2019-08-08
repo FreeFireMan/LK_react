@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 import SideBar from "./SideBar";
 import MaineContent from "./MainContent/MaineContent";
+import Catalog from "./Сatalog";
+import Product from "./Product/Product";
 
 
 class App extends React.Component{
@@ -40,11 +42,12 @@ class App extends React.Component{
             })
         //------End load tree data---------------------------------------
 
+
     }
 
 //------------------------------------------------------------------------
     render() {
-        const {tree_data,prod_data} = this.state;
+        const {tree_data,prod_data,isLoadingTree,isLoadingProd} = this.state;
 
         //console.log(poducts)
     return (
@@ -52,27 +55,8 @@ class App extends React.Component{
         <div id="wrapper" className="container">
 
             <Header/>
-            <div id="category" className="row">
-                {
-                    this.state.isLoadingTree &&
-                    <i className="fa fa-spinner fa-spin">Придумать заглушку загрузки</i>
-                }
-                {
-                    !this.state.isLoadingTree &&
-                    <SideBar data={tree_data}/>
-                }
-                <div id="featured" className="col-md-9">
-                   {
-                        this.state.isLoadingProd &&
-                        <i className="fa fa-spinner fa-spin">Придумать заглушку загрузки</i>
-                    }
-                    {
-                        !this.state.isLoadingProd &&
-
-                            <MaineContent data={prod_data} />
-                    }
-                </div>
-            </div>
+            <Product idProd={170207143605005} />
+          {/*  <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
             <div id="footer">
                 <div className="footer-top row">
                     <div className="menu-footer col-sm-6 col-md-3">

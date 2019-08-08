@@ -74,3 +74,6 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+.catalog-element-span{
+  font-weight : bolder;
+}

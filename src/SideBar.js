@@ -15,7 +15,7 @@ class SideBar extends React.Component {
         let children = null;
         let subChildren = null;
         if (this.state.displayChild){
-            children = <div>{
+            children = <div className="ml-4">{
                 this.state.data.children.map((item) =>
                     <div id={item.id} key={item.id}>
                         <label className="containerForTree">{item.name}

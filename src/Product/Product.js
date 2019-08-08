@@ -1,0 +1,78 @@
+import React from 'react'
+import PropBlock from './PropBlock'
+
+class Product extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data :{},
+            isLoadingData : true,
+        }
+
+    }
+    componentDidMount() {
+        fetch("http://localhost:8080/api/products/170207143605005/full")
+            .then(response => {
+
+                return response.json();
+            })
+            .then(result => {
+                //console.log(result.children)
+                this.setState( {
+                        data : result,
+                    isLoadingData : false
+                    }
+                )
+            })
+            .catch(error => {
+                console.log("MyErrorInFetch in Catalog Component : "+error)
+            })
+        //------End load tree data---------------------------------------
+
+
+    }
+
+
+    render() {
+
+            const {date,article,brand,manufacturer,model,series,ean,partNumber,baseImage,longName} = this.state.data;
+
+
+        return (
+
+            <div>
+                {
+                    !this.state.isLoadingData &&
+                    <div className="row">
+                        <div className="col-md-5"> {/*for images*/}
+                            <img src={baseImage} className="img-fluid" alt="..."/>
+                        </div>
+                        <div className="col-md-7 info-block"> {/*for content*/}
+                            <div className="mt-3">
+                                <h3 >{article}</h3>
+                                <div className="catalog-element"><span className="catalog-element-span">Дата последнего обновления: </span>{date}</div>
+                                <div className="catalog-element"><span className="catalog-element-span">Артикул: </span>{partNumber}</div>
+                                <div className="catalog-element"><span className="catalog-element-span">Бренд: </span>{brand}</div>
+                                <div className="catalog-element"><span className="catalog-element-span">Производитель: </span>{manufacturer}</div>
+                                <div className="catalog-element"><span className="catalog-element-span">Модель: </span>{model}</div>
+                                <div className="catalog-element"><span className="catalog-element-span">Серия: </span>{series}</div>
+                                <div className="catalog-element"><span className="catalog-element-span">Дата запуска: </span></div>
+                                {ean && <div className="catalog-element"><span className="catalog-element-span">EAN: </span>{ean}</div>}
+                            </div>
+                            {
+                                !this.state.isLoadingData && <PropBlock data ={this.state.data.groups} />
+                            }
+
+
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+        )
+    }
+
+}
+
+export default Product
