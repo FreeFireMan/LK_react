@@ -5,15 +5,18 @@ import VideoContent from "./VideoContent";
 class Product extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             data: {},
             isLoadingData: true,
+            id : props.match.params.number,
         }
 
     }
 
+
     componentDidMount() {
-        fetch("http://localhost:8080/api/products/180116112529159/full")
+        fetch("http://localhost:8080/api/products/"+this.state.id+"/full")
             .then(response => {
 
                 return response.json();

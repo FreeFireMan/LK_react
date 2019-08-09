@@ -1,6 +1,6 @@
 import React from 'react'
-import logoch from "./logo-ch.svg"
-import logolego from "./logolego.svg.png"
+import logoch from "../logo-ch.svg"
+import logolego from "../logolego.svg.png"
 
 function Header() {
     return(

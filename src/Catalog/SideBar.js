@@ -19,8 +19,8 @@ class SideBar extends React.Component {
                 this.state.data.children.map((item) =>
                     <div id={item.id} key={item.id}>
                         <label className="containerForTree">{item.name}
-                            <input type="checkbox"/>
-                            <span className="checkmark"></span>
+                            <input type="checkbox" checked/>
+                            <span className="checkmark"  ></span>
                         </label>
                     </div>)
             }</div>

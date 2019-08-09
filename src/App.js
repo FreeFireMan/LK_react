@@ -1,11 +1,12 @@
-import Header from './Header'
+import Header from './Header/Header'
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SideBar from "./SideBar";
-import MaineContent from "./MainContent/MaineContent";
-import Catalog from "./Сatalog";
+import SideBar from "./Catalog/SideBar";
+import MaineContent from "./Catalog/MainContent/MaineContent";
+import Catalog from "./Catalog/Сatalog";
 import Product from "./Product/Product";
+import { BrowserRouter, Route,Link,Switch} from "react-router-dom";
 
 
 class App extends React.Component{
@@ -48,15 +49,25 @@ class App extends React.Component{
 //------------------------------------------------------------------------
     render() {
         const {tree_data,prod_data,isLoadingTree,isLoadingProd} = this.state;
-
+        const extraProps = {
+            tree_data: tree_data,
+            prod_data: prod_data,
+            isLoadingTree: isLoadingTree,
+            isLoadingProd:isLoadingProd}
         //console.log(poducts)
     return (
 
         <div id="wrapper" className="container">
 
             <Header/>
-           {/* <Product idProd={170207143605005} />*/}
-            <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>
+            <Switch>
+            <Route exact path="/:number" component={Product}/>
+
+                <Route path="/" render={(props) => (
+                    <Catalog {...props} data={extraProps}/>
+                )}/>
+           {/* <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
+            </Switch>
             <div id="footer">
                 <div className="footer-top row">
                     <div className="menu-footer col-sm-6 col-md-3">
