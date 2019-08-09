@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
 
 class SideBar extends React.Component {
@@ -6,7 +7,8 @@ class SideBar extends React.Component {
         super(props);
         this.state = {
             data: this.props.data,
-            displayChild: false,
+            displayChild: true,
+            check: true
         }
     }
 
@@ -19,7 +21,7 @@ class SideBar extends React.Component {
                 this.state.data.children.map((item) =>
                     <div id={item.id} key={item.id}>
                         <label className="containerForTree">{item.name}
-                            <input type="checkbox" checked/>
+                            <input type="checkbox"/>
                             <span className="checkmark"  ></span>
                         </label>
                     </div>)
@@ -30,8 +32,11 @@ class SideBar extends React.Component {
                 <div>
                             <div id={this.props.data.id} key={this.props.data.id}>
                                 <label className="containerForTree">{this.props.data.name}
-                                    <input type="checkbox" onClick={this.expandParent}/>
-                                    <span className="checkmark"></span>
+                                    <input type="checkbox" onClick={this.expandParent} checked={this.state.check}/>
+                                    <span className="checkmark" data-toggle="popover" data-content="Disabled popover">
+
+                                    </span>
+
                                 </label>
                             </div>
                     {
@@ -42,8 +47,10 @@ class SideBar extends React.Component {
         )
     }
     expandParent = () => {
+
         this.setState({
-            displayChild: !this.state.displayChild
+            displayChild: !this.state.displayChild,
+            check: !this.state.check,
         })
     }
 

@@ -1,13 +1,13 @@
 import React from 'react'
 import logoch from "../logo-ch.svg"
 import logolego from "../logolego.svg.png"
-
+import {Link} from 'react-router-dom'
 function Header() {
     return(
         <div>
         <div id="header" className="row">
             {/*Start logos Bar*/}
-            <div id="logo" className="col-md-2"><div className="well"><img src={logoch} height="50px" alt="ContentCH"/></div></div>
+            <div id="logo" className="col-md-2"><div className="well"><Link to="/"><img src={logoch} height="50px" alt="ContentCH"/></Link></div></div>
             <div id="header-content" className="col-md-4"><div className="well"></div></div>
             <div id="logo" className="col-md-2"><div className="well"><img src={logolego} height="50px" alt=""/></div></div>
             <div id="header-content" className="col-md-4"><div className="well"></div></div>
