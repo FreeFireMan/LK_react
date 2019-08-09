@@ -31,7 +31,7 @@ class App extends React.Component{
                     tree_data : result,
                     isLoadingTree : false,
                     prod_data : result.children.map(item =>{
-                        return item.children
+                        return item.products
                     }),
                     isLoadingProd : false,
 
@@ -55,8 +55,8 @@ class App extends React.Component{
         <div id="wrapper" className="container">
 
             <Header/>
-            <Product idProd={170207143605005} />
-          {/*  <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
+           {/* <Product idProd={170207143605005} />*/}
+            <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>
             <div id="footer">
                 <div className="footer-top row">
                     <div className="menu-footer col-sm-6 col-md-3">

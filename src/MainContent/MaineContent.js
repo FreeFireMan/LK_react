@@ -16,7 +16,7 @@ class MaineContent extends React.Component {
 
         return (
             <div className="row">
-                {this.state.data.map( item => item.map( items =>
+                {this.state.data.map( item => item && item.map( items =>
                     <div key={items.id} className="card m-1 p-1" style={{width: "260px"}}>
                         <label className="containerForTree">
                             <input type="checkbox"/>
