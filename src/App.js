@@ -17,7 +17,19 @@ class App extends React.Component{
             isLoadingTree : true,
              prod_data : [],
              isLoadingProd : true,
+            filterFlag: [],
         }
+        this.aletAppPost = this.aletAppPost.bind(this)
+    }
+    aletAppPost(id){
+        let ids = this.state.filterFlag;
+
+        console.log("state id : "+this.state.filterFlag)
+        console.log("id fron sideBar : "+id)
+        this.setState(state => {
+            state.filterFlag.push(id)
+        })
+
     }
 //-----------get request from api Content House-----------------------
     componentDidMount() {
@@ -48,12 +60,14 @@ class App extends React.Component{
 
 //------------------------------------------------------------------------
     render() {
-        const {tree_data,prod_data,isLoadingTree,isLoadingProd} = this.state;
+        const {tree_data,prod_data,isLoadingTree,isLoadingProd,filterFlag} = this.state;
         const extraProps = {
             tree_data: tree_data,
             prod_data: prod_data,
             isLoadingTree: isLoadingTree,
-            isLoadingProd:isLoadingProd}
+            isLoadingProd:isLoadingProd,
+            filterFlag : filterFlag,
+        }
         //console.log(poducts)
     return (
 
@@ -64,7 +78,7 @@ class App extends React.Component{
             <Route exact path="/:number" component={Product}/>
 
                 <Route path="/" render={(props) => (
-                    <Catalog {...props} data={extraProps}/>
+                    <Catalog {...props} data={extraProps} aletAppPost = {this.aletAppPost}/>
                 )}/>
            {/* <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
             </Switch>

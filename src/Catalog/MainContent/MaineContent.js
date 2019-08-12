@@ -1,34 +1,50 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import CardHolder from "./CardHolder";
 
 class MaineContent extends React.Component {
     constructor(props) {
-        console.log(props)
+
+
         super(props)
         this.state = {
-          data: props.data
+          data: props.data,
+            filterFlag: props.filterFlag,
 
         }
     }
 
 
     render() {
+        let {filterFlag} = this.state;
+        let items = this.state.data.flat().filter( it =>(it));
+        let filterItems = filterFlag && items.filter(fil =>(
+            fil &&
+            filterFlag.includes(fil.categoryId.valueOf())
+        ))
+
+
+
         return (
             <div className="row">
-                {this.state.data.map( item => item && item.map( items =>
-                    <div key={items.id} className="card m-1 p-1" style={{width: "260px"}}>
-                        <label className="containerForTree">
-                            <input type="checkbox"/>
-                            <span className="checkmark"></span>
-                        </label>
-                        <img src={items.baseImage} className="card-img-top" style={{width: "250px"}} alt="..."/>
-                        <div className="card-body">
-                            <h6 className="card-title">Код производителя: {items.partNumber}</h6>
-                            <p className="card-text"><Link to={'/'+items.id}>{items.article}</Link></p>
-                           {/* <a href={items.id} className="btn btn-primary">Go somewhere</a>*/}
-                        </div>
-                    </div>
-                ))}
+                {
+
+                    this.state.filterFlag.length === 0 &&
+                    items && items.map( item => {
+
+                        return <CardHolder key={item.id} items={item}/>
+                    })
+
+                }
+                {
+                    this.state.filterFlag.length > 0 &&
+                    filterItems.map( items => ( items &&
+
+                         <CardHolder key={items.id} items={items}/>)
+                    )
+
+                }
+
             </div>
         )
     }

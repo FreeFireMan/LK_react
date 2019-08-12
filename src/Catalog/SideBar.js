@@ -10,10 +10,17 @@ class SideBar extends React.Component {
             displayChild: true,
             check: true
         }
+        this.handleClick = this.handleClick.bind(this)
+    }
+    handleClick = (e) => {
+       // console.log("SideBar value : "+e.target.value);
+
+        this.props.aletPost(e.target.value);
     }
 
 
     render() {
+
         let children = null;
         let subChildren = null;
         if (this.state.displayChild){
@@ -21,12 +28,14 @@ class SideBar extends React.Component {
                 this.state.data.children.map((item) =>
                     <div id={item.id} key={item.id}>
                         <label className="containerForTree">{item.name}
-                            <input type="checkbox"/>
+                            <input type="checkbox" value={item.id} onChange={this.handleClick}/>
                             <span className="checkmark"  ></span>
                         </label>
                     </div>)
             }</div>
         }
+
+
         return(
             <div className="col-md-3 pl-0">
                 <div>
@@ -56,18 +65,6 @@ class SideBar extends React.Component {
 
 }
 
-// function LabelTree(props) {
-//
-//
-//     return(
-//         <div id={props.value.id}   >
-//         <label className="containerForTree">{props.value.name}
-//             <input type="checkbox" />
-//             <span className="checkmark"></span>
-//         </label>
-//         </div>
-//     )
-// }
 
 export default SideBar
 
