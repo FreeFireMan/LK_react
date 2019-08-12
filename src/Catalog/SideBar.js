@@ -41,7 +41,7 @@ class SideBar extends React.Component {
                 <div>
                             <div id={this.props.data.id} key={this.props.data.id}>
                                 <label className="containerForTree">{this.props.data.name}
-                                    <input type="checkbox" onClick={this.expandParent} checked={this.state.check}/>
+                                    <input type="checkbox" onClick={this.expandParent} defaultChecked={this.state.check}/>
                                     <span className="checkmark" data-toggle="popover" data-content="Disabled popover">
 
                                     </span>

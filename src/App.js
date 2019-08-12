@@ -26,10 +26,10 @@ class App extends React.Component{
 
         console.log("state id : "+this.state.filterFlag)
         console.log("id fron sideBar : "+id)
-        this.setState(state => {
-            state.filterFlag.push(id)
+        !ids.includes(id) &&
+        this.setState(({filterFlag}) =>{
+           return  {filterFlag :[...filterFlag,id]}
         })
-
     }
 //-----------get request from api Content House-----------------------
     componentDidMount() {

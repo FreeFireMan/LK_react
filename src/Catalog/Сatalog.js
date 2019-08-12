@@ -35,7 +35,6 @@ class Catalog extends React.Component{
                             this.props.data.isLoadingProd &&
                             <i className="fa fa-spinner fa-spin">Придумать заглушку загрузки</i>
                         }
-
                         {
                             !this.props.data.isLoadingProd &&
 
