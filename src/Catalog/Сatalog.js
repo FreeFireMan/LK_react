@@ -11,8 +11,8 @@ class Catalog extends React.Component{
 
         this.aletPost = this.aletPost.bind(this);
     }
-    aletPost(id){
-        this.props.aletAppPost(id)
+    aletPost(id,chek){
+        this.props.aletAppPost(id,chek)
     }
 
     render() {
@@ -32,11 +32,11 @@ class Catalog extends React.Component{
                     }
                     <div id="featured" className="col-md-9">
                         {
-                            this.props.data.isLoadingProd &&
+                            this.props.data.isLoadingTree &&
                             <i className="fa fa-spinner fa-spin">Придумать заглушку загрузки</i>
                         }
                         {
-                            !this.props.data.isLoadingProd &&
+                            !this.props.data.isLoadingTree &&
 
                             <MaineContent data={this.props.data.prod_data} filterFlag={this.props.data.filterFlag} />
                         }

@@ -13,9 +13,9 @@ class SideBar extends React.Component {
         this.handleClick = this.handleClick.bind(this)
     }
     handleClick = (e) => {
-       // console.log("SideBar value : "+e.target.value);
+        // console.log("SideBar value : "+e.target.value);
 
-        this.props.aletPost(e.target.value);
+        this.props.aletPost(e.target.value, e.target.checked);
     }
 
 
@@ -39,15 +39,15 @@ class SideBar extends React.Component {
         return(
             <div className="col-md-3 pl-0">
                 <div>
-                            <div id={this.props.data.id} key={this.props.data.id}>
-                                <label className="containerForTree">{this.props.data.name}
-                                    <input type="checkbox" onClick={this.expandParent} defaultChecked={this.state.check}/>
-                                    <span className="checkmark" data-toggle="popover" data-content="Disabled popover">
+                    <div id={this.props.data.id} key={this.props.data.id}>
+                        <label className="containerForTree">{this.props.data.name}
+                            <input type="checkbox" onClick={this.expandParent} defaultChecked={this.state.check}/>
+                            <span className="checkmark" data-toggle="popover" data-content="Disabled popover">
 
                                     </span>
 
-                                </label>
-                            </div>
+                        </label>
+                    </div>
                     {
                         children
                     }
@@ -67,4 +67,3 @@ class SideBar extends React.Component {
 
 
 export default SideBar
-

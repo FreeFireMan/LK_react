@@ -12,8 +12,8 @@ function VideoInsertBlok(props) {
             <div className="catalog-element"><span
                 className="catalog-element-span">Код для встраивания видео </span></div>
             <div>
-            <textarea style={{width:"100%"}}>
-                {str}
+            <textarea style={{width:"100%"}} defaultValue ={str}>
+
             </textarea>
             </div>
         </div>

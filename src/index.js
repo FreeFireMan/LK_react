@@ -8,8 +8,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route,link,Switch} from "react-router-dom";
-import createBrowserHistory from "history/createBrowserHistory"
-const history = createBrowserHistory();
+import { createHashHistory } from 'history';
+const history = createHashHistory();
 
 ReactDOM.render(
     <BrowserRouter history={history}>
