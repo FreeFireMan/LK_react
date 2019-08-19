@@ -1,32 +1,18 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CardHolder from "./CardHolder";
+import Pagination from "./Pagination";
 
 class MaineContent extends React.Component {
     constructor(props) {
         super(props);
-        this.state ={
-            prod_data : [],
-            isLoadingProd : true,
-        }
-    }
-    componentDidMount() {
-        fetch("http://localhost:8080/api/shortproducts/25")
-            .then(response => {
+        this.handleClickCarrentPageMC = this.handleClickCarrentPageMC.bind(this)
 
-                return response.json();
-            })
-            .then(result => {
-                this.setState({
-                    prod_data : result,
-                    isLoadingProd : false,
-                })
-
-            })
-            .catch(error => {
-                console.log("MyErrorInFetch tree : "+error)
-            })
     }
+    handleClickCarrentPageMC=(val)=>{
+        this.props.handleClickCarrentPageC(val)
+    }
+
 
     render() {
         let {filterFlag} = this.props;
@@ -46,17 +32,20 @@ class MaineContent extends React.Component {
             filterFlag.includes(categoryId.toString())
         ))
         const itemsToIterate = filterFlag.length ? filterItems : items
-
-        console.log("maine item",filterItems);
-
-
         return (
+            <div>
+            <div >
+                {
+                   !this.state.isLoadingProd && <Pagination {...this.state} handleClickCarrentPage={this.handleClickCarrentPageMC}  />
+                }
+            </div>
             <div className="row">
                 {
 
                     itemsToIterate.map( items =>
                         <CardHolder key={items.id} items={items}/>)
                 }
+            </div>
             </div>
         )
     }

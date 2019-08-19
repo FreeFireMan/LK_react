@@ -13,17 +13,40 @@ class App extends React.Component{
     constructor(props){
         super(props)
         this.state ={
+            prod_data : [],
+            isLoadingProd : true,
             tree_data: {},
             isLoadingTree : true,
-          /*  prod_data : [],
-            isLoadingProd : true,*/
             filterFlag: [],
+            pageSize : 21,
+            totalPages: 0,
+            currentPage : 1
         }
         this.aletAppPost = this.aletAppPost.bind(this)
-
-
+        this.handleClickCarrentPage = this.handleClickCarrentPage.bind(this)
     }
-    aletAppPost(id,chek){
+    handleClickCarrentPage  =(val) =>{
+        console.log(val)
+        fetch(`http://localhost:8080/api/page?page=${this.state.currentPage+val}&size=${this.state.pageSize}`)
+            .then(response => {
+                console.log("fetch worked")
+                return response.json();
+            })
+            .then(result => {
+                console.log(result.content)
+                this.setState({
+                    prod_data : result.content,
+                    currentPage : (this.state.currentPage+val)
+                })
+            })
+            .catch(error => {
+                console.log("MyErrorInFetch tree : "+error)
+            })
+
+        console.log("state",this.state.currentPage)
+        console.log("state",this.state.isLoadingProd)
+    }
+        aletAppPost(id,chek){
         let ids = this.state.filterFlag;
 
         console.log("state befor chench id : "+this.state.filterFlag)
@@ -41,36 +64,41 @@ class App extends React.Component{
                     ))}
             })
         }
-
     }
 //-----------get request from api Content House-----------------------
     componentDidMount() {
-        fetch("http://localhost:8080/api/catalog/")
+        fetch("http://localhost:8080/api/catalog")
             .then(response => {
-
                 return response.json();
             })
             .then(result => {
-                //console.log(result.children)
                 this.setState({
                     tree_data : result,
                     isLoadingTree : false,
-                   /* prod_data : result.children.map(item =>{
-                        return item.products
-                    }),
-                    isLoadingProd : false,*/
-
                 })
             })
             .catch(error => {
                 console.log("MyErrorInFetch tree : "+error)
             })
         //------End load tree data---------------------------------------
+        fetch(`http://localhost:8080/api/page?page=${this.state.currentPage}&size=${this.state.pageSize}`)
+            .then(response => {
+                return response.json();
+            })
+            .then(result => {
+                console.log(result.content)
+                this.setState({
+                    prod_data : result.content,
+                    isLoadingProd : false,
+                    totalPages : result.totalPages
+                })
+                console.log(this.state.prod_data)
 
-
-
+            })
+            .catch(error => {
+                console.log("MyErrorInFetch tree : "+error)
+            })
     }
-
 //------------------------------------------------------------------------
     render() {
 
@@ -83,11 +111,12 @@ class App extends React.Component{
                     <Route exact path="/:number" component={Product}/>
 
                     <Route path="/" render={(props) => (
-                        <Catalog {...props} data={this.state} aletAppPost = {this.aletAppPost}/>
+                        <Catalog {...props} data={this.state} aletAppPost = {this.aletAppPost} handleClickCarrentPage={this.handleClickCarrentPage}/>
                     )}/>
                     {/* <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
                 </Switch>
                 <div id="footer">
+
                     <div className="footer-top row">
                         <div className="menu-footer col-sm-6 col-md-3">
                             <div className="well">3<br/>.menu-footer</div>
