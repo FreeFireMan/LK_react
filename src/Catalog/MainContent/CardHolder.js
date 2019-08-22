@@ -2,13 +2,9 @@ import React, {Component} from 'react'
 import {Link} from "react-router-dom";
 
 class CardHolder extends Component {
-    constructor(props){
-
-        super(props)
-    }
     render() {
         return(
-            <div key={this.props.items.id} className="card m-1 p-1" style={{width: "260px"}}>
+            <div key={this.props.items.id} className="card m-1" style={{width: "260px"}}>
                 <label className="containerForTree">
                     <input type="checkbox"/>
                     <span className="checkmark"></span>

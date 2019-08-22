@@ -1,16 +1,13 @@
 import React from 'react'
 import SideBar from "./SideBar";
 import MaineContent from "./MainContent/MaineContent";
-import {debuggerStatement} from "@babel/types";
 
 class Catalog extends React.Component {
     constructor(props) {
         super(props);
         this.aletPost = this.aletPost.bind(this);
     }
-    handleClickCarrentPageC =(val) => {
-    this.props.handleClickCarrentPage(val)
-}
+
     aletPost(id, chek) {
         this.props.aletAppPost(id, chek)
     }
@@ -34,7 +31,7 @@ class Catalog extends React.Component {
                         {
                             !this.props.data.isLoadingProd &&
 
-                            <MaineContent data={this.props.data.prod_data} filterFlag={this.props.data.filterFlag} handleClickCarrentPageC={this.handleClickCarrentPageC} />
+                            <MaineContent {...this.props} filterFlag={this.props.data.filterFlag} />
                         }
                     </div>
                 </div>

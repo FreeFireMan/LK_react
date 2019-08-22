@@ -41,7 +41,7 @@ class Product extends React.Component {
     render() {
 
         const {date, article, brand, manufacturer, model,
-            series, ean, partNumber, baseImage, longName,
+            series, ean, partNumber, baseImage,
             annotation, instructions, videos } = this.state.data;
 
 

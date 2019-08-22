@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from "react-router-dom";
 
 
 class SideBar extends React.Component {
@@ -22,7 +21,6 @@ class SideBar extends React.Component {
     render() {
 
         let children = null;
-        let subChildren = null;
         if (this.state.displayChild){
             children = <div className="ml-4">{
                 this.state.data.children.map((item) =>
