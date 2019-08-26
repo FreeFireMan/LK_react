@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import Catalog from "./Catalog/Сatalog";
 import Product from "./Product/Product";
-import Pagination from "./Pagination";
+import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
 import {Route, Switch} from "react-router-dom";
 
@@ -18,7 +18,7 @@ class App extends React.Component{
             filterFlag: [],
             pageSize : 21,
             totalPages: 0,
-            currentPage : 1
+            currentPage : 1,
         }
         this.aletAppPost = this.aletAppPost.bind(this);
         this.handleClickCarrentPage = this.handleClickCarrentPage.bind(this)
