@@ -6,6 +6,7 @@ import Product from "./Product/Product";
 import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
 import {Route, Switch} from "react-router-dom";
+import Footer from "./Footer/Footer";
 
 class App extends React.Component{
     constructor(props){
@@ -138,29 +139,7 @@ class App extends React.Component{
                             !this.state.isLoadingProd && <Pagination {...this.state} handleClickCarrentPage={this.handleClickCarrentPage}  />
                         }
                     </div>
-
-                    <div className="footer-top row">
-                        <div className="menu-footer col-sm-6 col-md-3">
-                            <div className="well">3<br/>.menu-footer</div>
-                        </div>
-                        <div className="menu-footer col-sm-6 col-md-3">
-                            <div className="well">3<br/>.menu-footer</div>
-                        </div>
-                        <div className="menu-footer col-sm-6 col-md-3">
-                            <div className="well">3<br/>.menu-footer</div>
-                        </div>
-                        <div className="menu-footer col-sm-6 col-md-3">
-                            <div className="well">3<br/>.menu-footer</div>
-                        </div>
-                    </div>
-                    <div className="footer-bottom row">
-                        <div className="copyrights col-sm-6 col-md-6">
-                            <div className="well">6<br/>.copyrights</div>
-                        </div>
-                        <div className="copyrights col-sm-6 col-md-6">
-                            <div className="well">6<br/>.copyrights</div>
-                        </div>
-                    </div>
+                    <Footer/>
                 </div>
             </div>);
     }

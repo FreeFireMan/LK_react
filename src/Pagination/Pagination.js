@@ -17,7 +17,7 @@ class Pagination extends Component {
                 <nav aria-label="...">
                     <ul className="pagination">
                         <li className={currentPage-1 <= 0 ? "page-item disabled" : "page-item"}>
-                            <a className="page-link" href="#" onClick={this.handleClick.bind(null,({"val":-1,"changeState" : true}))}>Previous</a>
+                            <a className="page-link" href="#" onClick={this.handleClick.bind(null,({"val":-1,"changeState" : true}))}>&larr; Назад</a>
                         </li>
                         <li className="page-item" aria-current="page">
                             <a className="page-link" href="#"  onClick={this.handleClick.bind(null,({"val":0,"changeState" : false}))}>{currentPage}</a>
@@ -27,7 +27,7 @@ class Pagination extends Component {
                         <li className={currentPage+2 >= totalPages ? "page-item disabled" : "page-item"}>
                             <a className="page-link" href="#" onClick={this.handleClick.bind(null,({"val":2,"changeState" : false}))}>{currentPage+2}</a></li>
                         <li className={currentPage+3 >= totalPages ? "page-item disabled" : "page-item"}>
-                            <a className="page-link" href="#" onClick={this.handleClick.bind(null,({"val":1,"changeState" : true}))}>Next</a>
+                            <a className="page-link" href="#" onClick={this.handleClick.bind(null,({"val":1,"changeState" : true}))}>Вперед &rarr;</a>
                         </li>
                     </ul>
                 </nav>

@@ -1,0 +1,24 @@
+.footer-top{
+    background: #f0f0f0;
+    font-size: 15px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+.topbutton {
+    width:100px;
+    border:2px solid #ccc;
+    background:#f7f7f7;
+    text-align:center;
+    padding:10px;
+  /*  position:fixed;*/
+    bottom:50px;
+    right:50px;
+    cursor:pointer;
+    color:#333;
+    font-family:verdana;
+    font-size:12px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+}
