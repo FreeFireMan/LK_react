@@ -4,10 +4,16 @@ import './Filter.css'
 class Filter extends Component {
     handleClick = (e) => {
                  this.props.filterUpDate(e);
+    };
+    handleOnFilter=()=>{
+        this.props.handleOnFilter();
+    }
+    handleDeleteFilter=()=>{
+        this.props.handleDeleteFilter();
     }
 
     render() {
-        const {data,currentFilter} = this.props;
+        const {data,currentFilter,arrayFilter} = this.props;
         return (
             <div>
                 <div className="dropdown filter">
@@ -23,7 +29,7 @@ class Filter extends Component {
                                             <div className="form-check" key={it}>
 
                                                 <label className="dropdown-item">
-                                                    <input type="checkbox" className="form-check-input" id="exampleCheck1"
+                                                    <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={arrayFilter.includes(data[el].values[it].value)}
                                                           value={data[el].values[it].value} onChange={this.handleClick.bind(null,{cat:data[el].name,val:data[el].values[it].value})}/>
                                                     {data[el].unit.value ? data[el].values[it].value + " " + data[el].unit.value : data[el].values[it].value}
                                                 </label>
@@ -37,8 +43,8 @@ class Filter extends Component {
                     }
                 </div>
                 <div className="w-100 mb-1">
-                    <button type="button" className="btn btn-primary">Пременить фильтр</button>
-                    <button type="button" className="btn btn-secondary">Сбросить фильтр</button>
+                    <button type="button" className="btn btn-primary" onClick={this.handleOnFilter}>Пременить фильтр</button>
+                    <button type="button" className="btn btn-secondary"onClick={this.handleDeleteFilter}>Сбросить фильтр</button>
                 </div>
             </div>
         );

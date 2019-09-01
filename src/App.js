@@ -7,6 +7,7 @@ import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
 import {Route, Switch} from "react-router-dom";
 import Footer from "./Footer/Footer";
+import queryString from 'query-string'
 
 class App extends React.Component{
     constructor(props){
@@ -23,22 +24,58 @@ class App extends React.Component{
             filter:[],
             isLoadingfilter: true,
             currentFilter:["Возраст от","Возраст до","Launch Date","Пол ребенка","Content status","Product Category","Количество деталей","Theme"],
+            arrayFilter:[],
             filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
 
         }
 
         this.aletAppPost = this.aletAppPost.bind(this);
         this.handleClickCarrentPage = this.handleClickCarrentPage.bind(this);
-        this.filterUpDate = this.filterUpDate.bind(this)
+        this.filterUpDate = this.filterUpDate.bind(this);
+        this.handleOnFilter = this.handleOnFilter.bind(this);
+        this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
 
     }
+    handleDeleteFilter=()=>{
+        this.setState({
+            arrayFilter:[],
+            filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
+        })
+    };
+    handleOnFilter=()=>{
+
+        let {currentPage,pageSize,filterFlag,filterToUrl} = this.state;
+        const param =queryString.stringify(filterToUrl, {arrayFormat: 'comma'});
+        console.log("filterToUrl ",filterToUrl);
+        fetch('http://localhost:8080/api/test', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(filterToUrl),
+        });
+
+       /* fetch(`http://localhost:8080/api/page?page=${currentPage}&size=${pageSize}&cat=${filterFlag}&${param}`)
+            .then(response => {
+                return response.json();
+            })
+            .then(result => {
+                console.log(result.content);
+                this.setState({
+                    prod_data : result.content,
+                })
+            })
+            .catch(error => {
+                console.log("MyErrorInFetch : "+error)
+            })*/
+
+    }
+
     filterUpDate=(e)=>{
-        console.log("filterToUrl",this.state.filterToUrl);
         const {cat,val} = e;
         let copyfilterToUrl = this.state.filterToUrl;
-        console.log("Filter value1 : "+cat);
-        console.log("Filter value2 : "+val);
-        console.log("Filter filterToUrl : "+copyfilterToUrl);
+        let copyarrayFilter = this.state.arrayFilter;
         cat === "Возраст от" && (copyfilterToUrl.ageFrom= [...copyfilterToUrl.ageFrom,val]);
         cat === "Возраст до" && (copyfilterToUrl.ageTo= [...copyfilterToUrl.ageTo,val]);
         cat === "Launch Date" && (copyfilterToUrl.launchDate= [...copyfilterToUrl.launchDate,val]);
@@ -48,6 +85,7 @@ class App extends React.Component{
         cat === "Количество деталей" && (copyfilterToUrl.countPieces= [...copyfilterToUrl.countPieces,val]);
         this.setState({
             filterToUrl : copyfilterToUrl,
+            arrayFilter: [...copyarrayFilter,val]
         })
 
     }
@@ -84,20 +122,21 @@ class App extends React.Component{
                         isLoadingProd : false,
                         totalPages : result.totalPages,
                         currentPage : 1,
-                        filterFlag : id
+                        filterFlag : id,
+                        filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
                     })
                 })
                 .catch(error => {
                     console.log("MyErrorInFetch tree : "+error)
-                })&& fetch(`http://localhost:8080/api/test/${id}`)
+                })&& fetch(`http://localhost:8080/api/filter/${id}`)
                 .then(response => {
-                    console.log("Request to filter");
                     return response.json();
                 })
                 .then(result => {
                     this.setState({
                         filter : result.attributes,
                         isLoadingfilter : false,
+                        filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
                     })
                 })
                 .catch(error => {
@@ -128,7 +167,7 @@ class App extends React.Component{
     }
 //-----------get request from api Content House-----------------------
     componentDidMount() {
-        const {filterFlag,pageSize} = this.state;
+        const {pageSize} = this.state;
         fetch("http://localhost:8080/api/catalog")
             .then(response => {
                 return response.json();
@@ -165,7 +204,13 @@ class App extends React.Component{
             <div id="wrapper" className="container">
                 <Header/>
                 {
-                    !this.state.isLoadingfilter && <Filter data={this.state.filter} currentFilter={this.state.currentFilter} filterUpDate={this.filterUpDate} />
+                    !this.state.isLoadingfilter && <Filter data={this.state.filter}
+                                                           currentFilter={this.state.currentFilter}
+                                                           arrayFilter={this.state.arrayFilter}
+                                                           filterUpDate={this.filterUpDate}
+                                                           handleOnFilter={this.handleOnFilter}
+                                                           handleDeleteFilter={this.handleDeleteFilter}
+                    />
                 }
                 <Switch>
                     <Route exact path="/:number" component={Product}/>
