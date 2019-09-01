@@ -21,7 +21,7 @@ class Catalog extends React.Component {
                     }
                     {
                         !this.props.data.isLoadingTree &&
-                        <SideBar data={this.props.data.tree_data} aletPost={this.aletPost}/>
+                        <SideBar data={this.props.data.tree_data} aletPost={this.aletPost} filterFlag={this.props.data.filterFlag}/>
                     }
                     <div id="featured" className="col-md-9">
                         {

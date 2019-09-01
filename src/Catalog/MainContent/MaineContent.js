@@ -18,9 +18,9 @@ class MaineContent extends React.Component {
         })
 
         let filterItems = items.filter(({categoryId}) =>(
-            filterFlag.includes(categoryId.toString())
+            filterFlag===categoryId.toString()
         ))
-        const itemsToIterate = filterFlag.length ? filterItems : items
+        const itemsToIterate = filterFlag ? filterItems : items
         return (
 
             <div id="MaineContent" className="d-flex align-content-stretch flex-wrap">

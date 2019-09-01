@@ -16,10 +16,14 @@ class App extends React.Component{
             isLoadingProd : true,
             tree_data: {},
             isLoadingTree : true,
-            filterFlag: [],
+            filterFlag: null,
             pageSize : 21,
             totalPages: 0,
             currentPage : 1,
+            filter:[],
+            isLoadingfilter: true,
+            currentFilter:["Возраст от","Возраст до","Launch Date","Пол ребенка","Content status","Product Category","Количество деталей","Theme"]
+
         }
         this.aletAppPost = this.aletAppPost.bind(this);
         this.handleClickCarrentPage = this.handleClickCarrentPage.bind(this)
@@ -34,6 +38,7 @@ class App extends React.Component{
                 return response.json();
             })
             .then(result => {
+                console.log(result.content);
                 this.setState({
                     prod_data : result.content,
                     currentPage : (changeState?currentPage+val:currentPage)
@@ -44,10 +49,9 @@ class App extends React.Component{
             })
     }
         aletAppPost(id,chek){
-        let {filterFlag,pageSize} = this.state;
+        let {pageSize} = this.state;
         if (chek){
-            !filterFlag.includes(id) &&
-            fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=${[...filterFlag,id]}`)
+            fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=${id}`)
                 .then(response => {
                     return response.json();
                 })
@@ -57,18 +61,29 @@ class App extends React.Component{
                         isLoadingProd : false,
                         totalPages : result.totalPages,
                         currentPage : 1,
-                        filterFlag :[...filterFlag,id]
+                        filterFlag : id
                     })
                 })
                 .catch(error => {
                     console.log("MyErrorInFetch tree : "+error)
-                });
+                })&& fetch(`http://localhost:8080/api/test/${id}`)
+                .then(response => {
+                    console.log("Request to filter");
+                    return response.json();
+                })
+                .then(result => {
+                    this.setState({
+                        filter : result.attributes,
+                        isLoadingfilter : false,
+                    })
+                })
+                .catch(error => {
+                    console.log("MyErrorInFetch tree : "+error)
+                })
+
         } else if (!chek){
-            let newfilterFlag = filterFlag.filter(t => (
-                t !== id
-            ))
-            filterFlag.includes(id)  &&
-             fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=${newfilterFlag}`)
+
+             fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
                 .then(response => {
                     return response.json();
                 })
@@ -78,7 +93,8 @@ class App extends React.Component{
                         isLoadingProd : false,
                         totalPages : result.totalPages,
                         currentPage : 1,
-                        filterFlag : newfilterFlag
+                        filterFlag : null,
+                        isLoadingfilter: true
                     })
                 })
                 .catch(error => {
@@ -104,7 +120,7 @@ class App extends React.Component{
                 console.log("MyErrorInFetch tree : "+error)
             })
         //------End load tree data---------------------------------------
-        fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=${filterFlag}`)
+        fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
             .then(response => {
                 return response.json();
             })
@@ -125,7 +141,9 @@ class App extends React.Component{
         return (
             <div id="wrapper" className="container">
                 <Header/>
-                <Filter/>
+                {
+                    !this.state.isLoadingfilter && <Filter data={this.state.filter} currentFilter={this.state.currentFilter} />
+                }
                 <Switch>
                     <Route exact path="/:number" component={Product}/>
                     <Route path="/" render={(props) => (

@@ -2,69 +2,47 @@ import React, {Component} from 'react';
 import './Filter.css'
 
 class Filter extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: [
-                {
-                    id: 1,
-                    name : "Дата запуска",
-                    value: ["12/08/19", "25/03/18"]
-                },
-                {
-                    id: 2,
-                    name : "Content status" ,
-                    value: ["Service Content", "Available", "Product Content"]
-                },
-                {
-                    id: 3,
-                    name : "Пол ребенка",
-                    value: ["Для мальчиков", "Для девочек"]
-                },
-                {
-                    id: 4,
-                    name : "Количество деталей",
-                    value: [2, 4, 10, 300, 4000]
-                },
-                {
-                    id: 5,
-                    name : "Product Category",
-                    value: ["Standard Retail", "Exclusive"]
-                },
-                {
-                    id: 6,
-                    name: "Возраст (в годах)",
-                    value: [1, 2, 3, 4, 16, 18, 25, 99]
-                }]
-        }
+    handleClick = (e) => {
+         console.log("Filter value : "+e.target.value);
+
+      //  this.props.aletPost(e.target.value, e.target.checked);
     }
 
     render() {
-        const {data} = this.state;
+        const {data,currentFilter} = this.props;
+        console.log(this.props);
         return (
-            <div className="dropdown filter">
-                {
-                    data.map(el => (
-                            <div className="filterCard col-sm-6 col-md-4" key={el.id}>
-                                <a className="mybtn dropdown-toggle" data-toggle="dropdown">
-                                    {el.name}
-                                    <span className="caret"></span>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    {el.value.map(it =>(
-                                        <div className="form-check">
-                                            <input type="radio" className="custom-control-input" id="defaultChecked"
-                                                   name="defaultExampleRadios"/>
-                                        <label className="dropdown-item" >{it}</label>
-                                        </div>
-                                    ))}
+            <div>
+                <div className="dropdown filter">
+                    {
+                        Object.keys(data).map(el => (currentFilter.includes(data[el].name) &&
+                                <div className="filterCard col-sm-6 col-md-4" key={el}>
+                                    <a className="mybtn dropdown-toggle" data-toggle="dropdown">
+                                        {data[el].name}
+                                        <span className="caret"></span>
+                                    </a>
+                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        {Object.keys(data[el].values).map(it => (
+                                            <div className="form-check" key={it}>
 
+                                                <label className="dropdown-item">
+                                                    <input type="checkbox" className="form-check-input" id="exampleCheck1"
+                                                          value={data[el].values[it].value} onChange={this.handleClick}/>
+                                                    {data[el].unit.value ? data[el].values[it].value + " " + data[el].unit.value : data[el].values[it].value}
+                                                </label>
+                                            </div>
+                                        ))}
+
+                                    </div>
                                 </div>
-                            </div>
+                            )
                         )
-                    )
-                }
-
+                    }
+                </div>
+                <div className="w-100 mb-1">
+                    <button type="button" className="btn btn-primary">Пременить фильтр</button>
+                    <button type="button" className="btn btn-secondary">Сбросить фильтр</button>
+                </div>
             </div>
         );
     }
