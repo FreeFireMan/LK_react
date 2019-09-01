@@ -22,11 +22,34 @@ class App extends React.Component{
             currentPage : 1,
             filter:[],
             isLoadingfilter: true,
-            currentFilter:["Возраст от","Возраст до","Launch Date","Пол ребенка","Content status","Product Category","Количество деталей","Theme"]
+            currentFilter:["Возраст от","Возраст до","Launch Date","Пол ребенка","Content status","Product Category","Количество деталей","Theme"],
+            filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
 
         }
+
         this.aletAppPost = this.aletAppPost.bind(this);
-        this.handleClickCarrentPage = this.handleClickCarrentPage.bind(this)
+        this.handleClickCarrentPage = this.handleClickCarrentPage.bind(this);
+        this.filterUpDate = this.filterUpDate.bind(this)
+
+    }
+    filterUpDate=(e)=>{
+        console.log("filterToUrl",this.state.filterToUrl);
+        const {cat,val} = e;
+        let copyfilterToUrl = this.state.filterToUrl;
+        console.log("Filter value1 : "+cat);
+        console.log("Filter value2 : "+val);
+        console.log("Filter filterToUrl : "+copyfilterToUrl);
+        cat === "Возраст от" && (copyfilterToUrl.ageFrom= [...copyfilterToUrl.ageFrom,val]);
+        cat === "Возраст до" && (copyfilterToUrl.ageTo= [...copyfilterToUrl.ageTo,val]);
+        cat === "Launch Date" && (copyfilterToUrl.launchDate= [...copyfilterToUrl.launchDate,val]);
+        cat === "Пол ребенка" && (copyfilterToUrl.sex= [...copyfilterToUrl.sex,val]);
+        cat === "Content status" && (copyfilterToUrl.contentStatus= [...copyfilterToUrl.contentStatus,val]);
+        cat === "Product Category" && (copyfilterToUrl.productCategory= [...copyfilterToUrl.productCategory,val]);
+        cat === "Количество деталей" && (copyfilterToUrl.countPieces= [...copyfilterToUrl.countPieces,val]);
+        this.setState({
+            filterToUrl : copyfilterToUrl,
+        })
+
     }
     handleClickCarrentPage  =(v) =>{
         let {val,changeState} = v;
@@ -142,7 +165,7 @@ class App extends React.Component{
             <div id="wrapper" className="container">
                 <Header/>
                 {
-                    !this.state.isLoadingfilter && <Filter data={this.state.filter} currentFilter={this.state.currentFilter} />
+                    !this.state.isLoadingfilter && <Filter data={this.state.filter} currentFilter={this.state.currentFilter} filterUpDate={this.filterUpDate} />
                 }
                 <Switch>
                     <Route exact path="/:number" component={Product}/>

@@ -3,14 +3,11 @@ import './Filter.css'
 
 class Filter extends Component {
     handleClick = (e) => {
-         console.log("Filter value : "+e.target.value);
-
-      //  this.props.aletPost(e.target.value, e.target.checked);
+                 this.props.filterUpDate(e);
     }
 
     render() {
         const {data,currentFilter} = this.props;
-        console.log(this.props);
         return (
             <div>
                 <div className="dropdown filter">
@@ -27,7 +24,7 @@ class Filter extends Component {
 
                                                 <label className="dropdown-item">
                                                     <input type="checkbox" className="form-check-input" id="exampleCheck1"
-                                                          value={data[el].values[it].value} onChange={this.handleClick}/>
+                                                          value={data[el].values[it].value} onChange={this.handleClick.bind(null,{cat:data[el].name,val:data[el].values[it].value})}/>
                                                     {data[el].unit.value ? data[el].values[it].value + " " + data[el].unit.value : data[el].values[it].value}
                                                 </label>
                                             </div>
