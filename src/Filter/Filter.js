@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import './Filter.css'
 
 class Filter extends Component {
-    handleClick = (e) => {
-                 this.props.filterUpDate(e);
+    constructor(props){
+        super(props)
+    }
+    handleClick = (e,t) => {
+                 this.props.filterUpDate(e,t.target.checked);
     };
     handleOnFilter=()=>{
         this.props.handleOnFilter();
@@ -30,7 +33,7 @@ class Filter extends Component {
 
                                                 <label className="dropdown-item">
                                                     <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={arrayFilter.includes(data[el].values[it].value)}
-                                                          value={data[el].values[it].value} onChange={this.handleClick.bind(null,{cat:data[el].name,val:data[el].values[it].value})}/>
+                                                          value={data[el].values[it].value} onChange={this.handleClick.bind(this,{cat:data[el].name,val:data[el].values[it].value,}) }/>
                                                     {data[el].unit.value ? data[el].values[it].value + " " + data[el].unit.value : data[el].values[it].value}
                                                 </label>
                                             </div>

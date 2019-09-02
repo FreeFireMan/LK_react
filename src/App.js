@@ -9,23 +9,23 @@ import {Route, Switch} from "react-router-dom";
 import Footer from "./Footer/Footer";
 import queryString from 'query-string'
 
-class App extends React.Component{
-    constructor(props){
+class App extends React.Component {
+    constructor(props) {
         super(props)
-        this.state ={
-            prod_data : [],
-            isLoadingProd : true,
+        this.state = {
+            prod_data: [],
+            isLoadingProd: true,
             tree_data: {},
-            isLoadingTree : true,
+            isLoadingTree: true,
             filterFlag: null,
-            pageSize : 21,
+            pageSize: 21,
             totalPages: 0,
-            currentPage : 1,
-            filter:[],
+            currentPage: 1,
+            filter: [],
             isLoadingfilter: true,
-            currentFilter:["Возраст от","Возраст до","Launch Date","Пол ребенка","Content status","Product Category","Количество деталей","Theme"],
-            arrayFilter:[],
-            filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
+            currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей", "Theme"],
+            arrayFilter: [], //храню чекнутые параметры в фильтре
+            filterToUrl: {},
 
         }
 
@@ -36,135 +36,139 @@ class App extends React.Component{
         this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
 
     }
-    handleDeleteFilter=()=>{
+
+    handleDeleteFilter = () => {
         this.setState({
-            arrayFilter:[],
-            filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
+            arrayFilter: [],
+            filterToUrl: {},
         })
     };
-    handleOnFilter=()=>{
+    handleOnFilter = () => {
 
-        let {currentPage,pageSize,filterFlag,filterToUrl} = this.state;
-        const param =queryString.stringify(filterToUrl, {arrayFormat: 'comma'});
-        console.log("filterToUrl ",filterToUrl);
-        fetch('http://localhost:8080/api/test', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(filterToUrl),
-        });
+        let {currentPage, pageSize, filterFlag, filterToUrl} = this.state;
 
-       /* fetch(`http://localhost:8080/api/page?page=${currentPage}&size=${pageSize}&cat=${filterFlag}&${param}`)
+        JSON.stringify(filterToUrl) === JSON.stringify({}) ? alert("Фильтр пуст") :
+            filterToUrl.category = filterFlag &&
+                console.log("filterToUrl ", JSON.stringify(filterToUrl)) &&
+                fetch('http://localhost:8080/api/test', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(filterToUrl),
+                }).then(response => {
+                    return response.json();
+                })
+                    .then(result => {
+                        console.log("result", result);
+                    })
+                    .catch(error => {
+                        console.log("MyErrorInFetch : " + error)
+                    });
+
+    }
+
+    filterUpDate = (e, chek) => {
+        const {cat, val} = e;
+        let copyFilterToUrl = this.state.filterToUrl;
+        let copyArrayFilter = this.state.arrayFilter;
+        if (chek) {
+            copyFilterToUrl.hasOwnProperty(cat) ? copyFilterToUrl[cat] = [...copyFilterToUrl[cat], val] : copyFilterToUrl[cat] = [val];
+            this.setState({
+                filterToUrl: copyFilterToUrl,
+                arrayFilter: [...copyArrayFilter, val]
+            })
+        }
+        if(!chek){
+            copyFilterToUrl[cat] = copyFilterToUrl[cat].filter( v=> v!== val);
+            copyArrayFilter = copyArrayFilter.filter( v=> v!== val);
+            this.setState({
+                filterToUrl: copyFilterToUrl,
+                arrayFilter: copyArrayFilter
+            })
+
+        }
+
+    }
+    handleClickCarrentPage = (v) => {
+        let {val, changeState} = v;
+        let {currentPage, pageSize, filterFlag, totalPages} = this.state;
+        val = currentPage + val >= 1 && currentPage + val <= totalPages ? val : 0;
+
+        fetch(`http://localhost:8080/api/page?page=${currentPage + val}&size=${pageSize}&cat=${filterFlag}`)
             .then(response => {
                 return response.json();
             })
             .then(result => {
                 console.log(result.content);
                 this.setState({
-                    prod_data : result.content,
+                    prod_data: result.content,
+                    currentPage: (changeState ? currentPage + val : currentPage)
                 })
             })
             .catch(error => {
-                console.log("MyErrorInFetch : "+error)
-            })*/
-
-    }
-
-    filterUpDate=(e)=>{
-        const {cat,val} = e;
-        let copyfilterToUrl = this.state.filterToUrl;
-        let copyarrayFilter = this.state.arrayFilter;
-        cat === "Возраст от" && (copyfilterToUrl.ageFrom= [...copyfilterToUrl.ageFrom,val]);
-        cat === "Возраст до" && (copyfilterToUrl.ageTo= [...copyfilterToUrl.ageTo,val]);
-        cat === "Launch Date" && (copyfilterToUrl.launchDate= [...copyfilterToUrl.launchDate,val]);
-        cat === "Пол ребенка" && (copyfilterToUrl.sex= [...copyfilterToUrl.sex,val]);
-        cat === "Content status" && (copyfilterToUrl.contentStatus= [...copyfilterToUrl.contentStatus,val]);
-        cat === "Product Category" && (copyfilterToUrl.productCategory= [...copyfilterToUrl.productCategory,val]);
-        cat === "Количество деталей" && (copyfilterToUrl.countPieces= [...copyfilterToUrl.countPieces,val]);
-        this.setState({
-            filterToUrl : copyfilterToUrl,
-            arrayFilter: [...copyarrayFilter,val]
-        })
-
-    }
-    handleClickCarrentPage  =(v) =>{
-        let {val,changeState} = v;
-        let {currentPage,pageSize,filterFlag,totalPages} = this.state;
-        val = currentPage+val >= 1 && currentPage+val <= totalPages ? val:0;
-
-        fetch(`http://localhost:8080/api/page?page=${currentPage+val}&size=${pageSize}&cat=${filterFlag}`)
-            .then(response => {
-                return response.json();
-            })
-            .then(result => {
-                console.log(result.content);
-                this.setState({
-                    prod_data : result.content,
-                    currentPage : (changeState?currentPage+val:currentPage)
-                })
-            })
-            .catch(error => {
-                console.log("MyErrorInFetch : "+error)
+                console.log("MyErrorInFetch : " + error)
             })
     }
-        aletAppPost(id,chek){
+
+    aletAppPost(id, chek) {
         let {pageSize} = this.state;
-        if (chek){
+        if (chek) {
             fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=${id}`)
                 .then(response => {
                     return response.json();
                 })
                 .then(result => {
                     this.setState({
-                        prod_data : result.content,
-                        isLoadingProd : false,
-                        totalPages : result.totalPages,
-                        currentPage : 1,
-                        filterFlag : id,
-                        filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
+                        prod_data: result.content,
+                        isLoadingProd: false,
+                        totalPages: result.totalPages,
+                        currentPage: 1,
+                        filterFlag: id,
+                        filterToUrl: {},
                     })
                 })
                 .catch(error => {
-                    console.log("MyErrorInFetch tree : "+error)
-                })&& fetch(`http://localhost:8080/api/filter/${id}`)
+                    console.log("MyErrorInFetch tree : " + error)
+                }) && fetch(`http://localhost:8080/api/filter/${id}`)
                 .then(response => {
                     return response.json();
                 })
                 .then(result => {
                     this.setState({
-                        filter : result.attributes,
-                        isLoadingfilter : false,
-                        filterToUrl: {ageFrom : [],ageTo:[],launchDate:[],sex:[],contentStatus:[],productCategory:[],countPieces:[]},
+                        filter: result.attributes,
+                        isLoadingfilter: false,
+                        filterToUrl: {},
                     })
                 })
                 .catch(error => {
-                    console.log("MyErrorInFetch tree : "+error)
+                    console.log("MyErrorInFetch tree : " + error)
                 })
 
-        } else if (!chek){
+        } else if (!chek) {
 
-             fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
+            fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
                 .then(response => {
                     return response.json();
                 })
                 .then(result => {
                     this.setState({
-                        prod_data : result.content,
-                        isLoadingProd : false,
-                        totalPages : result.totalPages,
-                        currentPage : 1,
-                        filterFlag : null,
+                        prod_data: result.content,
+                        isLoadingProd: false,
+                        totalPages: result.totalPages,
+                        currentPage: 1,
+                        filterFlag: null,
                         isLoadingfilter: true
                     })
                 })
                 .catch(error => {
-                    console.log("MyErrorInFetch tree : "+error)
+                    console.log("MyErrorInFetch tree : " + error)
                 });
         }
 
     }
+
 //-----------get request from api Content House-----------------------
     componentDidMount() {
         const {pageSize} = this.state;
@@ -174,12 +178,12 @@ class App extends React.Component{
             })
             .then(result => {
                 this.setState({
-                    tree_data : result,
-                    isLoadingTree : false,
+                    tree_data: result,
+                    isLoadingTree: false,
                 })
             })
             .catch(error => {
-                console.log("MyErrorInFetch tree : "+error)
+                console.log("MyErrorInFetch tree : " + error)
             })
         //------End load tree data---------------------------------------
         fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
@@ -189,15 +193,16 @@ class App extends React.Component{
             .then(result => {
 
                 this.setState({
-                    prod_data : result.content,
-                    isLoadingProd : false,
-                    totalPages : result.totalPages
+                    prod_data: result.content,
+                    isLoadingProd: false,
+                    totalPages: result.totalPages
                 })
             })
             .catch(error => {
-                console.log("MyErrorInFetch tree : "+error)
+                console.log("MyErrorInFetch tree : " + error)
             })
     }
+
 //------------------------------------------------------------------------
     render() {
         return (
@@ -215,14 +220,16 @@ class App extends React.Component{
                 <Switch>
                     <Route exact path="/:number" component={Product}/>
                     <Route path="/" render={(props) => (
-                        <Catalog {...props} data={this.state} aletAppPost = {this.aletAppPost} handleClickCarrentPage={this.handleClickCarrentPage}/>
+                        <Catalog {...props} data={this.state} aletAppPost={this.aletAppPost}
+                                 handleClickCarrentPage={this.handleClickCarrentPage}/>
                     )}/>
                     {/* <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
                 </Switch>
                 <div id="footer">
-                    <div className="d-flex justify-content-center mr-1" >
+                    <div className="d-flex justify-content-center mr-1">
                         {
-                            !this.state.isLoadingProd && <Pagination {...this.state} handleClickCarrentPage={this.handleClickCarrentPage}  />
+                            !this.state.isLoadingProd &&
+                            <Pagination {...this.state} handleClickCarrentPage={this.handleClickCarrentPage}/>
                         }
                     </div>
                     <Footer/>
@@ -230,4 +237,5 @@ class App extends React.Component{
             </div>);
     }
 }
+
 export default App;
