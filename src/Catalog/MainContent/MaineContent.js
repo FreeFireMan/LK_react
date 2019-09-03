@@ -5,7 +5,6 @@ class MaineContent extends React.Component {
 
     render() {
         let {filterFlag} = this.props;
-
         let items = this.props.data.prod_data.filter( it =>(it));
         items.sort((a,b)=>{ //sort by lastUpdated
             if (a.lastUpdated <b.lastUpdated){

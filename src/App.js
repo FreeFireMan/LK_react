@@ -23,7 +23,7 @@ class App extends React.Component {
             currentPage: 1,
             filter: [],
             isLoadingfilter: true,
-            currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей", "Theme"],
+            currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей"],
             arrayFilter: [], //храню чекнутые параметры в фильтре
             filterToUrl: {},
 
@@ -38,6 +38,7 @@ class App extends React.Component {
     }
 
     handleDeleteFilter = () => {
+
         this.setState({
             arrayFilter: [],
             filterToUrl: {},
@@ -46,11 +47,9 @@ class App extends React.Component {
     handleOnFilter = () => {
 
         let {currentPage, pageSize, filterFlag, filterToUrl} = this.state;
-
-        JSON.stringify(filterToUrl) === JSON.stringify({}) ? alert("Фильтр пуст") :
-            filterToUrl.category = filterFlag &&
-                console.log("filterToUrl ", JSON.stringify(filterToUrl)) &&
-                fetch('http://localhost:8080/api/test', {
+        console.log(JSON.stringify(filterToUrl))
+        if(JSON.stringify(filterToUrl) === JSON.stringify({})) { alert("Фильтр пуст")} else {
+                fetch(`http://localhost:8080/api//categories/${filterFlag}/products?page=${currentPage}&size=${pageSize}`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
@@ -62,11 +61,19 @@ class App extends React.Component {
                 })
                     .then(result => {
                         console.log("result", result);
+                        this.setState({
+                            prod_data: result.content,
+                            isLoadingProd: false,
+                            totalPages: result.totalPages,
+                            currentPage: 1,
+                            }
+                        )
+
                     })
                     .catch(error => {
                         console.log("MyErrorInFetch : " + error)
                     });
-
+        }
     }
 
     filterUpDate = (e, chek) => {
@@ -127,6 +134,7 @@ class App extends React.Component {
                         currentPage: 1,
                         filterFlag: id,
                         filterToUrl: {},
+                        arrayFilter: []
                     })
                 })
                 .catch(error => {
@@ -184,10 +192,12 @@ class App extends React.Component {
             })
             .catch(error => {
                 console.log("MyErrorInFetch tree : " + error)
-            })
+            });
         //------End load tree data---------------------------------------
+
         fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
             .then(response => {
+                console.log(response)
                 return response.json();
             })
             .then(result => {
