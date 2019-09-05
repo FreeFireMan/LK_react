@@ -4,6 +4,7 @@ import './Filter.css'
 class Filter extends Component {
     constructor(props){
         super(props)
+        console.log("props",props)
     }
     handleClick = (e,t) => {
                  this.props.filterUpDate(e,t.target.checked);
