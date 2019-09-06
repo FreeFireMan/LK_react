@@ -22,7 +22,7 @@ class Product extends React.Component {
                 return response.json();
             })
             .then(result => {
-                //console.log(result.children)
+                console.log(result)
                 this.setState({
                         data: result,
                         isLoadingData: false

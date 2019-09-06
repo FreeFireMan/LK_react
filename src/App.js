@@ -92,6 +92,32 @@ class App extends React.Component {
             })
     }
     handleDeleteFilter = () => {
+      /*  fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage}&size=${pageSize}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(filterToUrl),
+        }).then(response => {
+            return response.json();
+        })
+            .then(result => {
+                console.log("result", result.page);
+                console.log("result.page.totalPages,", result.page.totalPages);
+                this.setState({
+                        prod_data: result.content,
+                        isLoadingProd: false,
+                        totalPages: result.page.totalPages,
+                        currentPage: result.page.number + 1,
+
+                    }
+                )
+
+            })
+            .catch(error => {
+                console.log("MyErrorInFetch : " + error)
+            });*/
 
         this.setState({
             arrayFilter: [],
@@ -204,7 +230,7 @@ class App extends React.Component {
                         isLoadingProd: false,
                         totalPages: result.totalPages,
                         currentPage: 1,
-                        filterFlag: null,
+                        filterFlag: 0,
                         isLoadingfilter: true
                     })
                 })
@@ -212,7 +238,6 @@ class App extends React.Component {
                     console.log("MyErrorInFetch tree : " + error)
                 });
         }
-
     }
 
 //-----------get request from api Content House-----------------------
@@ -256,30 +281,34 @@ class App extends React.Component {
         return (
             <div id="wrapper" className="container">
                 <Header/>
-                {
-                    !this.state.isLoadingfilter && <Filter data={this.state.filter}
-                                                           currentFilter={this.state.currentFilter}
-                                                           arrayFilter={this.state.arrayFilter}
-                                                           filterUpDate={this.filterUpDate}
-                                                           handleOnFilter={this.handleOnFilter}
-                                                           handleDeleteFilter={this.handleDeleteFilter}
-                    />
-                }
+
                 <Switch>
                     <Route exact path="/:number" component={Product}/>
                     <Route path="/" render={(props) => (
-                        <Catalog {...props} data={this.state} aletAppPost={this.aletAppPost}
-                                 handleClickCarrentPage={this.handleClickCarrentPage}/>
-                    )}/>
-                    {/* <Catalog tree_data={tree_data} prod_data={prod_data} isLoadingTree={isLoadingTree} isLoadingProd={isLoadingProd}/>*/}
+                        <div>
+                            {
+                                !this.state.isLoadingfilter && <Filter data={this.state.filter}
+                                                                       currentFilter={this.state.currentFilter}
+                                                                       arrayFilter={this.state.arrayFilter}
+                                                                       filterUpDate={this.filterUpDate}
+                                                                       handleOnFilter={this.handleOnFilter}
+                                                                       handleDeleteFilter={this.handleDeleteFilter}
+                                />
+                            }
+                            <Catalog {...props} data={this.state} aletAppPost={this.aletAppPost}
+                                     handleClickCarrentPage={this.handleClickCarrentPage}/>
+                            <div className="d-flex justify-content-center mr-1">
+                                {
+                                    !this.state.isLoadingProd &&
+                                    <Pagination {...this.state} handleClickCarrentPage={this.handleClickCarrentPage}/>
+                                }
+                            </div>
+
+                        </div>
+                      )}/>
                 </Switch>
                 <div id="footer">
-                    <div className="d-flex justify-content-center mr-1">
-                        {
-                            !this.state.isLoadingProd &&
-                            <Pagination {...this.state} handleClickCarrentPage={this.handleClickCarrentPage}/>
-                        }
-                    </div>
+
                     <Footer/>
                 </div>
             </div>);
