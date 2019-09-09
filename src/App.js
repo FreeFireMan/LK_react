@@ -21,7 +21,7 @@ class App extends React.Component {
             totalPages: 0,
             currentPage: 1,
             filter: [],
-            isLoadingfilter: true,
+            isLoadingFilter: true,
             currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей"],
             arrayFilter: [], //храню чекнутые параметры в фильтре
             filterToUrl: {},
@@ -35,27 +35,31 @@ class App extends React.Component {
         this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
 
     }
-
-    /*handleClickCarrentPage = (v) => {
-        let {val, changeState} = v;
-        let {currentPage, pageSize, filterFlag, totalPages} = this.state;
-        val = currentPage + val >= 1 && currentPage + val <= totalPages ? val : 0;
-
-        fetch(`http://localhost:8080/api/page?page=${currentPage + val}&size=${pageSize}&cat=${filterFlag}`)
-            .then(response => {
-                return response.json();
-            })
+    getFetch = () =>{
+        let {currentPage, pageSize, filterFlag} = this.state;
+        fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage}&size=${pageSize}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        }).then(response => {
+            return response.json();
+        })
             .then(result => {
-                console.log(result.content);
                 this.setState({
-                    prod_data: result.content,
-                    currentPage: (changeState ? currentPage + val : currentPage)
-                })
+                        prod_data: result.content,
+                        isLoadingProd: false,
+                        totalPages: result.page.totalPages,
+                        currentPage: result.page.number + 1,
+                    }
+                )
             })
             .catch(error => {
                 console.log("MyErrorInFetch : " + error)
-            })
-    }*/
+            });
+    }
     handleClickCarrentPage = (v) => {
         let {val, changeState} = v;
         let {currentPage, pageSize, filterFlag, totalPages, filterToUrl} = this.state;
@@ -92,33 +96,7 @@ class App extends React.Component {
             })
     }
     handleDeleteFilter = () => {
-      /*  fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage}&size=${pageSize}`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(filterToUrl),
-        }).then(response => {
-            return response.json();
-        })
-            .then(result => {
-                console.log("result", result.page);
-                console.log("result.page.totalPages,", result.page.totalPages);
-                this.setState({
-                        prod_data: result.content,
-                        isLoadingProd: false,
-                        totalPages: result.page.totalPages,
-                        currentPage: result.page.number + 1,
-
-                    }
-                )
-
-            })
-            .catch(error => {
-                console.log("MyErrorInFetch : " + error)
-            });*/
-
+        this.getFetch();
         this.setState({
             arrayFilter: [],
             filterToUrl: {},
@@ -132,7 +110,7 @@ class App extends React.Component {
         if (JSON.stringify(filterToUrl) === JSON.stringify({})) {
             alert("Фильтр пуст")
         } else {
-            fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage}&size=${pageSize}`, {
+            fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=1&size=${pageSize}`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -185,15 +163,23 @@ class App extends React.Component {
     aletAppPost(id, chek) {
         let {pageSize} = this.state;
         if (chek) {
-            fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=${id}`)
-                .then(response => {
+            fetch(`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            }).then(response => {
+
                     return response.json();
                 })
                 .then(result => {
+                    console.log("result1",result)
                     this.setState({
                         prod_data: result.content,
                         isLoadingProd: false,
-                        totalPages: result.totalPages,
+                        totalPages: result.page.totalPages,
                         currentPage: 1,
                         filterFlag: id,
                         filterToUrl: {},
@@ -210,7 +196,7 @@ class App extends React.Component {
                     console.log("result", result)
                     this.setState({
                         filter: result.attributes,
-                        isLoadingfilter: false,
+                        isLoadingFilter: false,
                         filterToUrl: {},
                     })
                 })
@@ -220,18 +206,25 @@ class App extends React.Component {
 
         } else if (!chek) {
 
-            fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
-                .then(response => {
+            fetch(`http://localhost:8080/api/categories/0/products?page=1&size=${pageSize}`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            }).then(response => {
                     return response.json();
                 })
                 .then(result => {
+                    console.log("result2",result)
                     this.setState({
                         prod_data: result.content,
                         isLoadingProd: false,
-                        totalPages: result.totalPages,
+                        totalPages: result.page.totalPages,
                         currentPage: 1,
                         filterFlag: 0,
-                        isLoadingfilter: true
+                        isLoadingFilter: true
                     })
                 })
                 .catch(error => {
@@ -242,7 +235,7 @@ class App extends React.Component {
 
 //-----------get request from api Content House-----------------------
     componentDidMount() {
-        const {pageSize} = this.state;
+        const {pageSize, filterFlag} = this.state;
         fetch("http://localhost:8080/api/catalog")
             .then(response => {
                 return response.json();
@@ -257,23 +250,28 @@ class App extends React.Component {
                 console.log("MyErrorInFetch tree : " + error)
             });
         //------End load tree data---------------------------------------
-
-        fetch(`http://localhost:8080/api/page?page=1&size=${pageSize}&cat=`)
-            .then(response => {
-                console.log(response)
-                return response.json();
-            })
+        fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=1&size=${pageSize}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        }).then(response => {
+            return response.json();
+        })
             .then(result => {
-
                 this.setState({
-                    prod_data: result.content,
-                    isLoadingProd: false,
-                    totalPages: result.totalPages
-                })
+                        prod_data: result.content,
+                        isLoadingProd: false,
+                        totalPages: result.page.totalPages,
+                        currentPage: result.page.number + 1,
+                    }
+                )
             })
             .catch(error => {
-                console.log("MyErrorInFetch tree : " + error)
-            })
+                console.log("MyErrorInFetch : " + error)
+            });
     }
 
 //------------------------------------------------------------------------
@@ -287,7 +285,7 @@ class App extends React.Component {
                     <Route path="/" render={(props) => (
                         <div>
                             {
-                                !this.state.isLoadingfilter && <Filter data={this.state.filter}
+                                !this.state.isLoadingFilter&& <Filter data={this.state.filter}
                                                                        currentFilter={this.state.currentFilter}
                                                                        arrayFilter={this.state.arrayFilter}
                                                                        filterUpDate={this.filterUpDate}

@@ -9,14 +9,14 @@ class Product extends React.Component {
         this.state = {
             data: {},
             isLoadingData: true,
-            id : props.match.params.number,
+            id: props.match.params.number,
         }
 
     }
 
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/products/"+this.state.id+"/full")
+        fetch("http://localhost:8080/api/products/" + this.state.id + "/full")
             .then(response => {
 
                 return response.json();
@@ -40,9 +40,11 @@ class Product extends React.Component {
 
     render() {
 
-        const {date, article, brand, manufacturer, model,
+        const {
+            date, article, brand, manufacturer, model,
             series, ean, partNumber, baseImage,
-            annotation, instructions, videos } = this.state.data;
+            annotation, instructions, videos
+        } = this.state.data;
 
 
         return (
@@ -73,13 +75,13 @@ class Product extends React.Component {
                                     className="catalog-element-span">Дата запуска: </span></div>
                                 {ean && <div className="catalog-element"><span
                                     className="catalog-element-span">EAN: </span>{ean}</div>}
-                                  {  /*Вывод описания продукта*/}
+                                {  /*Вывод описания продукта*/}
                                 {annotation && <div>
                                     <div><span className="catalog-element-span">Описание</span></div>
                                     <div dangerouslySetInnerHTML={{__html: annotation}}/>
                                 </div>}
-                             {  /* Вывод инструкций нужно подумать как реализовать*/}
-                              {/*  <div>
+                                {  /* Вывод инструкций нужно подумать как реализовать*/}
+                                {/*  <div>
                                     <div><span className="catalog-element-span">Инструкции</span></div>
                                     { instructions.map(i => (
                                         <a href={i.name}></a>
@@ -87,7 +89,7 @@ class Product extends React.Component {
 
                                 </div>*/}
                                 {/*Вывод ссылок для  видосиков*/}
-                                <VideoContent data={videos} />
+                                <VideoContent data={videos}/>
                             </div>
 
 
