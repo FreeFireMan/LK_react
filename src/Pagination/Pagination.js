@@ -13,8 +13,6 @@ class Pagination extends Component {
 
     render() {
         let {currentPage, totalPages} = this.props;
-        console.log("totalPages : ",totalPages)
-        console.log("currentPage : ",currentPage)
         return (
             <div>
                 <nav aria-label="...">

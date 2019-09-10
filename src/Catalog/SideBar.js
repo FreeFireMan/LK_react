@@ -27,7 +27,6 @@ class SideBar extends React.Component {
                 this.state.data.children.map((item) =>
 
                     <div id={item.id} key={item.id}>
-                        {console.log("side bar : ",item)}
                         <label className="containerForTree">{item.name}
                             <input type="checkbox" value={item.id} onChange={this.handleClick} checked={filterFlag === item.id.toString()}/>
                             <span className="checkmark"  ></span>

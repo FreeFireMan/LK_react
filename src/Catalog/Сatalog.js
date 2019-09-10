@@ -5,7 +5,6 @@ import MaineContent from "./MainContent/MaineContent";
 class Catalog extends React.Component {
     constructor(props) {
         super(props);
-        console.log("catalog", props)
         this.aletPost = this.aletPost.bind(this);
     }
 

@@ -33,7 +33,33 @@ class App extends React.Component {
         this.filterUpDate = this.filterUpDate.bind(this);
         this.handleOnFilter = this.handleOnFilter.bind(this);
         this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
+        this.handleClickLogoHeader = this.handleClickLogoHeader.bind(this);
 
+    }
+    handleClickLogoHeader = ()=>{
+        let {currentPage, pageSize, filterFlag} = this.state;
+        fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=1&size=${pageSize}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        }).then(response => {
+            return response.json();
+        })
+            .then(result => {
+                this.setState({
+                        prod_data: result.content,
+                        isLoadingProd: false,
+                        totalPages: result.page.totalPages,
+                        currentPage: result.page.number + 1,
+                    }
+                )
+            })
+            .catch(error => {
+                console.log("MyErrorInFetch : " + error)
+            });
     }
     getFetch = () =>{
         let {currentPage, pageSize, filterFlag} = this.state;
@@ -63,13 +89,7 @@ class App extends React.Component {
     handleClickCarrentPage = (v) => {
         let {val, changeState} = v;
         let {currentPage, pageSize, filterFlag, totalPages, filterToUrl} = this.state;
-        console.log("Pagination", JSON.stringify(filterToUrl));
-        console.log("Pagination val", val);
-        console.log("Pagination changeState ", changeState);
-        console.log("Pagination currentPage ", currentPage);
         val = currentPage + val >= 1 && currentPage + val <= totalPages ? val : 0;
-        console.log("Pagination url ",`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage + val}&size=${pageSize}`);
-
         fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage + val}&size=${pageSize}`,
             {
                 method: 'POST',
@@ -83,7 +103,6 @@ class App extends React.Component {
                 return response.json();
             })
             .then(result => {
-                console.log(result);
                 this.setState({
                     prod_data: result.content,
                     isLoadingProd: false,
@@ -106,7 +125,6 @@ class App extends React.Component {
     handleOnFilter = () => {
 
         let {currentPage, pageSize, filterFlag, filterToUrl} = this.state;
-        console.log(JSON.stringify(filterToUrl))
         if (JSON.stringify(filterToUrl) === JSON.stringify({})) {
             alert("Фильтр пуст")
         } else {
@@ -121,8 +139,6 @@ class App extends React.Component {
                 return response.json();
             })
                 .then(result => {
-                    console.log("result", result.page);
-                    console.log("result.page.totalPages,", result.page.totalPages);
                     this.setState({
                             prod_data: result.content,
                             isLoadingProd: false,
@@ -163,7 +179,6 @@ class App extends React.Component {
     aletAppPost(id, chek) {
         let {pageSize} = this.state;
         if (chek) {
-            console.log("aletr : ",`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`)
             fetch(`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`, {
                 method: 'POST',
                 headers: {
@@ -176,7 +191,6 @@ class App extends React.Component {
                     return response.json();
                 })
                 .then(result => {
-                    console.log("result1",result)
                     this.setState({
                         prod_data: result.content,
                         isLoadingProd: false,
@@ -194,7 +208,6 @@ class App extends React.Component {
                     return response.json();
                 })
                 .then(result => {
-                    console.log("result", result)
                     this.setState({
                         filter: result.attributes,
                         isLoadingFilter: false,
@@ -218,7 +231,6 @@ class App extends React.Component {
                     return response.json();
                 })
                 .then(result => {
-                    console.log("result2",result)
                     this.setState({
                         prod_data: result.content,
                         isLoadingProd: false,
@@ -242,7 +254,6 @@ class App extends React.Component {
                 return response.json();
             })
             .then(result => {
-                console.log("tree_data",result)
                 this.setState({
                     tree_data: result,
                     isLoadingTree: false,
@@ -280,7 +291,7 @@ class App extends React.Component {
     render() {
         return (
             <div id="wrapper" className="container">
-                <Header/>
+                <Header handleClickLogoHeader={this.handleClickLogoHeader}/>
 
                 <Switch>
                     <Route exact path="/:number" component={Product}/>
