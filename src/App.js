@@ -163,6 +163,7 @@ class App extends React.Component {
     aletAppPost(id, chek) {
         let {pageSize} = this.state;
         if (chek) {
+            console.log("aletr : ",`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`)
             fetch(`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`, {
                 method: 'POST',
                 headers: {
@@ -241,6 +242,7 @@ class App extends React.Component {
                 return response.json();
             })
             .then(result => {
+                console.log("tree_data",result)
                 this.setState({
                     tree_data: result,
                     isLoadingTree: false,
