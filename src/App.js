@@ -22,7 +22,8 @@ class App extends React.Component {
             currentPage: 1,
             filter: [],
             isLoadingFilter: true,
-            currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей"],
+        //    currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей"], // for lego
+            currentFilter:["Диагональ экрана","Тип экрана","Цвет корпуса"], //for tpv
             arrayFilter: [], //храню чекнутые параметры в фильтре
             filterToUrl: {},
 
@@ -179,6 +180,7 @@ class App extends React.Component {
     aletAppPost(id, chek) {
         let {pageSize} = this.state;
         if (chek) {
+            console.log("my test : ",`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`)
             fetch(`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`, {
                 method: 'POST',
                 headers: {
@@ -208,6 +210,7 @@ class App extends React.Component {
                     return response.json();
                 })
                 .then(result => {
+                    //console.log("filter : ", result)
                     this.setState({
                         filter: result.attributes,
                         isLoadingFilter: false,
@@ -254,6 +257,7 @@ class App extends React.Component {
                 return response.json();
             })
             .then(result => {
+                console.log("tree_data : ",result)
                 this.setState({
                     tree_data: result,
                     isLoadingTree: false,

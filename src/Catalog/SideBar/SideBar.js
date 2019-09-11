@@ -1,14 +1,13 @@
 import React from 'react'
+import Child from "./Child";
 
 
 class SideBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.data,
             displayChild: true,
             check: true,
-            filterFlag: this.props.filterFlag
         }
         this.handleClick = this.handleClick.bind(this)
     }
@@ -21,18 +20,10 @@ class SideBar extends React.Component {
 
     render() {
         const {filterFlag} = this.props;
+
         let children = null;
         if (this.state.displayChild){
-            children = <div className="ml-4">{
-                this.state.data.children.map((item) =>
-
-                    <div id={item.id} key={item.id}>
-                        <label className="containerForTree">{item.name}
-                            <input type="checkbox" value={item.id} onChange={this.handleClick} checked={filterFlag === item.id.toString()}/>
-                            <span className="checkmark"  ></span>
-                        </label>
-                    </div>)
-            }</div>
+           children = <Child items={this.props.data.children} filterFlag={filterFlag} handleClick={this.handleClick}/>
         }
 
 
@@ -56,13 +47,12 @@ class SideBar extends React.Component {
         )
     }
     expandParent = () => {
-
         this.setState({
             displayChild: !this.state.displayChild,
             check: !this.state.check,
+
         })
     }
-
 }
 
 

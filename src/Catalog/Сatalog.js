@@ -1,5 +1,5 @@
 import React from 'react'
-import SideBar from "./SideBar";
+import SideBar from "./SideBar/SideBar";
 import MaineContent from "./MainContent/MaineContent";
 
 class Catalog extends React.Component {
@@ -21,7 +21,10 @@ class Catalog extends React.Component {
                     }
                     {
                         !this.props.data.isLoadingTree &&
-                        <SideBar data={this.props.data.tree_data} aletPost={this.aletPost} filterFlag={this.props.data.filterFlag}/>
+                        <SideBar data={this.props.data.tree_data}
+                                 aletPost={this.aletPost}
+                                 filterFlag={this.props.data.filterFlag}
+                        />
                     }
                     <div id="featured" className="col-md-9">
                         {
