@@ -1,14 +1,14 @@
 import React from 'react'
 import logoch from "../logo-ch.svg"
 import logolego from "../logolego.svg.png"
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 function Header(props) {
 
     return(
         <div>
         <div id="header" className="row">
             {/*Start logos Bar*/}
-            <div id="logo" className="col-md-2"><div className="well"><Link to="/"><img src={logoch} height="50px" alt="ContentCH" onClick={props.handleClickLogoHeader}/></Link></div></div>
+            <div id="logo" className="col-md-2"><div className="well"><NavLink to="/"><img src={logoch} height="50px" alt="ContentCH" onClick={props.handleClickLogoHeader}/></NavLink></div></div>
             <div id="header-content" className="col-md-4"><div className="well"></div></div>
             <div id="logo" className="col-md-2"><div className="well"><img src={logolego} height="50px" alt=""/></div></div>
             <div id="header-content" className="col-md-4"><div className="well"></div></div>
@@ -23,7 +23,7 @@ function Header(props) {
                         <a className="nav-link" href="#">Статус контента</a>
                     </li>
                     <li className="nav-item">
-                        <Link to="/lk"><a className="nav-link" href="#">Личный кабинет</a></Link>
+                        <NavLink className="nav-link" to="/lk">Личный кабинет</NavLink>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#" tabIndex="-1" aria-disabled="true">Выход</a>

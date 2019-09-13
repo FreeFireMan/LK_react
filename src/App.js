@@ -7,6 +7,8 @@ import Pagination from "./Pagination/Pagination";
 import Filter from "./Filter/Filter";
 import {Route, Switch} from "react-router-dom";
 import Footer from "./Footer/Footer";
+import PrivateArea from "./PrivateArea/PrivateArea";
+import Agreement from "./Agreement/Agreement";
 
 class App extends React.Component {
     constructor(props) {
@@ -209,22 +211,7 @@ class App extends React.Component {
                 });
             fetch(`http://localhost:8080/api/filter/${id}`)
                 .then(response => {
-            /*
-            */
-/*
-*/
-
                     return response.json();
-            /*
-            */
-/*
-*/
-
-            /*
-            */
-/*
-*/
-
                 })
                 .then(result => {
 
@@ -320,6 +307,8 @@ class App extends React.Component {
                 <Header handleClickLogoHeader={this.handleClickLogoHeader}/>
 
                 <Switch>
+                    <Route path="/lk" component={PrivateArea}/>
+                    <Route path="/agreement" component={Agreement}/>
                     <Route exact path="/:number" component={Product}/>
                     <Route path="/" render={(props) => (
                         <div>

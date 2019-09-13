@@ -9,7 +9,7 @@ class PrivateArea extends Component {
     render() {
         return(
             <div>
-              <h1>Hello Lk</h1>
+              <h1>Личный кабинет</h1>
             </div>
         )
     }

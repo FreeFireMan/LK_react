@@ -1,5 +1,6 @@
 import React from "react";
 import './Footer.css'
+import {NavLink} from "react-router-dom";
 
 
 function Footer()
@@ -11,7 +12,7 @@ function Footer()
                     <div className="well">© ContentHub 2019 Все права защищены</div>
                 </div>
                 <div className="menu-footer col-sm-6 col-md-4">
-                    <div className="well"><a href="/#">Согласие на обработку персональных данных</a></div>
+                    <div className="well"><NavLink to="/agreement">Согласие на обработку персональных данных</NavLink></div>
                 </div>
                 <div className="menu-footer col-sm-6 col-md-3">
                     <div className="well"><a href="/#">Политика в отношении обработки
