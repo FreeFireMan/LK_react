@@ -22,8 +22,8 @@ class App extends React.Component {
             currentPage: 1,
             filter: [],
             isLoadingFilter: true,
-        //    currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей"], // for lego
-            currentFilter:["Диагональ экрана","Тип экрана","Цвет корпуса"], //for tpv
+            //    currentFilter: ["Возраст от", "Возраст до", "Launch Date", "Пол ребенка", "Content status", "Product Category", "Количество деталей"], // for lego
+            currentFilter: ["Диагональ экрана", "Тип экрана", "Цвет корпуса"], //for tpv
             arrayFilter: [], //храню чекнутые параметры в фильтре
             filterToUrl: {},
 
@@ -37,7 +37,8 @@ class App extends React.Component {
         this.handleClickLogoHeader = this.handleClickLogoHeader.bind(this);
 
     }
-    handleClickLogoHeader = ()=>{
+
+    handleClickLogoHeader = () => {
         let {currentPage, pageSize, filterFlag} = this.state;
         fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=1&size=${pageSize}`, {
             method: 'POST',
@@ -62,7 +63,7 @@ class App extends React.Component {
                 console.log("MyErrorInFetch : " + error)
             });
     }
-    getFetch = () =>{
+    getFetch = () => {
         let {currentPage, pageSize, filterFlag} = this.state;
         fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=${currentPage}&size=${pageSize}`, {
             method: 'POST',
@@ -180,7 +181,6 @@ class App extends React.Component {
     aletAppPost(id, chek) {
         let {pageSize} = this.state;
         if (chek) {
-            console.log("my test : ",`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`)
             fetch(`http://localhost:8080/api/categories/${id}/products?page=1&size=${pageSize}`, {
                 method: 'POST',
                 headers: {
@@ -190,9 +190,10 @@ class App extends React.Component {
                 body: JSON.stringify({}),
             }).then(response => {
 
-                    return response.json();
-                })
+                return response.json();
+            })
                 .then(result => {
+
                     this.setState({
                         prod_data: result.content,
                         isLoadingProd: false,
@@ -205,12 +206,28 @@ class App extends React.Component {
                 })
                 .catch(error => {
                     console.log("MyErrorInFetch tree : " + error)
-                }) && fetch(`http://localhost:8080/api/filter/${id}`)
+                });
+            fetch(`http://localhost:8080/api/filter/${id}`)
                 .then(response => {
+            /*
+            */
+/*
+*/
+
                     return response.json();
+            /*
+            */
+/*
+*/
+
+            /*
+            */
+/*
+*/
+
                 })
                 .then(result => {
-                    //console.log("filter : ", result)
+
                     this.setState({
                         filter: result.attributes,
                         isLoadingFilter: false,
@@ -218,7 +235,12 @@ class App extends React.Component {
                     })
                 })
                 .catch(error => {
-                    console.log("MyErrorInFetch tree : " + error)
+                    console.log("aletAppPost error : " + error)
+                    this.setState({
+                        filter: [],
+                        isLoadingFilter: true,
+                        filterToUrl: {},
+                    })
                 })
 
         } else if (!chek) {
@@ -231,8 +253,8 @@ class App extends React.Component {
                 },
                 body: JSON.stringify({}),
             }).then(response => {
-                    return response.json();
-                })
+                return response.json();
+            })
                 .then(result => {
                     this.setState({
                         prod_data: result.content,
@@ -244,7 +266,7 @@ class App extends React.Component {
                     })
                 })
                 .catch(error => {
-                    console.log("MyErrorInFetch tree : " + error)
+                    console.log("MaletAppPost else if error : " + error)
                 });
         }
     }
@@ -257,7 +279,7 @@ class App extends React.Component {
                 return response.json();
             })
             .then(result => {
-                console.log("tree_data : ",result)
+
                 this.setState({
                     tree_data: result,
                     isLoadingTree: false,
@@ -302,7 +324,7 @@ class App extends React.Component {
                     <Route path="/" render={(props) => (
                         <div>
                             {
-                                !this.state.isLoadingFilter&& <Filter data={this.state.filter}
+                                !this.state.isLoadingFilter && <Filter data={this.state.filter}
                                                                        currentFilter={this.state.currentFilter}
                                                                        arrayFilter={this.state.arrayFilter}
                                                                        filterUpDate={this.filterUpDate}
@@ -320,7 +342,7 @@ class App extends React.Component {
                             </div>
 
                         </div>
-                      )}/>
+                    )}/>
                 </Switch>
                 <div id="footer">
 

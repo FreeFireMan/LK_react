@@ -12,6 +12,7 @@ class Catalog extends React.Component {
         this.props.aletAppPost(id, chek)
     }
     render() {
+
         return (
             <div>
                 <div id="category" className="row">
@@ -32,9 +33,9 @@ class Catalog extends React.Component {
                             <i className="fa fa-spinner fa-spin">Придумать заглушку загрузки</i>
                         }
                         {
-                            !this.props.data.isLoadingProd &&
 
-                            <MaineContent {...this.props} filterFlag={this.props.data.filterFlag} />
+                            !this.props.data.isLoadingProd &&
+                            <MaineContent {...this.props} />
                         }
                     </div>
                 </div>

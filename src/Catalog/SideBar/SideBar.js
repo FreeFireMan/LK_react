@@ -20,7 +20,7 @@ class SideBar extends React.Component {
 
     render() {
         const {filterFlag} = this.props;
-
+        console.log(this.props)
         let children = null;
         if (this.state.displayChild){
            children = <Child items={this.props.data.children} filterFlag={filterFlag} handleClick={this.handleClick}/>

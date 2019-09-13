@@ -23,7 +23,7 @@ function Header(props) {
                         <a className="nav-link" href="#">Статус контента</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Личный кабинет</a>
+                        <Link to="/lk"><a className="nav-link" href="#">Личный кабинет</a></Link>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#" tabIndex="-1" aria-disabled="true">Выход</a>
