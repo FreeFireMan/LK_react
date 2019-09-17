@@ -38,9 +38,20 @@ class App extends React.Component {
         this.handleOnFilter = this.handleOnFilter.bind(this);
         this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
         this.handleClickLogoHeader = this.handleClickLogoHeader.bind(this);
+        this.handleClickItems = this.handleClickItems.bind(this);
+        this.clearCart = this.clearCart.bind(this);
 
     }
-
+    clearCart = ()=>{
+             this.setState({cart:[]}) 
+    }
+    handleClickItems = (e)=>{
+        const {value,checked} = e.target;
+        const  copyCart = this.state.cart;
+        checked
+        ? this.setState({cart:[...copyCart,value]})
+        : this.setState({cart:[...copyCart.filter(val=> val!=value)]}) 
+    }
     handleClickLogoHeader = () => {
         let {currentPage, pageSize, filterFlag} = this.state;
         fetch(`http://localhost:8080/api/categories/${filterFlag}/products?page=1&size=${pageSize}`, {
@@ -305,7 +316,10 @@ class App extends React.Component {
     render() {
         return (
             <div id="wrapper" className="container">
-                <Header handleClickLogoHeader={this.handleClickLogoHeader}/>
+                <Header
+                    handleClickLogoHeader={this.handleClickLogoHeader}
+                    clearCart={this.clearCart}
+                    cart={this.state.cart}/>
 
                 <Switch>
                     <Route path="/lk" component={PrivateArea}/>
@@ -322,8 +336,12 @@ class App extends React.Component {
                                                                        handleDeleteFilter={this.handleDeleteFilter}
                                 />
                             }
-                            <Catalog {...props} data={this.state} aletAppPost={this.aletAppPost}
-                                     handleClickCarrentPage={this.handleClickCarrentPage}/>
+                            <Catalog {...props}
+                                     data={this.state}
+                                     aletAppPost={this.aletAppPost}
+                                     handleClickCarrentPage={this.handleClickCarrentPage}
+                                     handleClickItems={this.handleClickItems}
+                            />
                             <div className="d-flex justify-content-center mr-1">
                                 {
                                     !this.state.isLoadingProd &&

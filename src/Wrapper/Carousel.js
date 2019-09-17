@@ -10,7 +10,7 @@ class Carousel extends React.Component {
     carouselRender = (  source, activeItem, handleEvent ) => {
 
         const indicators = source.map(( item, i ) => {
-            console.log("indicators",item, i )
+           // console.log("indicators",item, i )
             let itemClass = '';
             if( item.id === activeItem ){
                 itemClass += ' active';
@@ -30,7 +30,7 @@ class Carousel extends React.Component {
                 <img src={item.src} className="img-fluid" />
             </div>;
         });
-        console.log("imgs",imgs)
+      //  console.log("imgs",imgs)
 
         //console.info('Carousel->carouselRender [7]', { });
         return <div id="demo" className="carousel slide" data-ride="carousel" data-pause="hover">

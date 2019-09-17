@@ -38,7 +38,7 @@ class Product extends React.Component {
 
     }
     shouldComponentRender() {
-        console.log("shouldComponentRender", this.props)
+      //  console.log("shouldComponentRender", this.props)
         const {isLoadingData} = this.state.isLoadingData;
         if (isLoadingData === true) return false;
         // more tests

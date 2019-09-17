@@ -1,22 +1,69 @@
 import React, {Component} from 'react'
 import {NavLink} from "react-router-dom";
+import Modal from "../../Modal/Modal";
 
 class CardHolder extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { isOpen: false };
+            // this.handleClickItems = this.handleClickItems.bind(this);
+    }
+    handleShowDialog = () => {
+        this.setState({ isOpen: !this.state.isOpen });
+
+        console.log("cliked",this.props.items);
+    };
+
+    handleClickItems = (e) => {
+        this.props.handleClickItems(e)
+    }
+
     render() {
-        return(
-            <div key={this.props.items.id} className="card m-1" style={{width: "260px"}}>
+        const {id,baseImageThumbs,partNumber,article,baseImage} =this.props.items;
+        const {cart} =this.props;
+        return (
+            <div key={id} className="card m-1" style={{width: "260px"}}>
                 <label className="containerForTree">
-                    <input type="checkbox"/>
+                    <input type="checkbox" onChange={this.handleClickItems} value={id} checked={cart.includes(id) }/>
                     <span className="checkmark"></span>
                 </label>
-                <NavLink to={'/'+this.props.items.id}><img src={this.props.items.baseImage} className="card-img-top" style={{width: "250px"}} alt="..."/></NavLink>
+                {/*<NavLink to={'/' + id}><img src={baseImageThumbs} className="card-img-top"
+                                                             style={{width: "250px"}} alt="..."/></NavLink>*/}
+                    <img src={baseImageThumbs}
+                         onClick={this.handleShowDialog}
+                         className="card-img-top"
+                         style={{width: "250px"}} alt="..."/>
+                {this.state.isOpen && (
+                    <dialog
+                        className="dialog"
+                        style={{ position: "fixed",
+                            zIndex: "1",
+                            border: "1px solid #d4eeff"}}
+                        open
+
+
+                        onClick={this.handleShowDialog}
+                    >
+                        <img
+                            className="image"
+                            src={baseImage}
+                            onClick={this.handleShowDialog}
+                            style={{width: "70%"}}
+                            alt="no image"
+                        />
+                    </dialog>
+                )}
+
                 <div className="card-body">
-                    <h6 className="card-title">Код производителя: {this.props.items.partNumber}</h6>
-                    <p className="card-text"><NavLink to={'/'+this.props.items.id}>{this.props.items.article}</NavLink></p>
-                    {/* <a href={items.id} className="btn btn-primary">Go somewhere</a>*/}
+                    <h6 className="card-title">Код производителя: {partNumber}</h6>
+                    <p className="card-text"><NavLink
+                        to={'/' + id}>{article}</NavLink></p>
+
+                    <Modal/>
                 </div>
             </div>
         )
     }
 }
+
 export default CardHolder

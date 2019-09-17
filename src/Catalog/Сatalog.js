@@ -7,12 +7,15 @@ class Catalog extends React.Component {
         super(props);
         this.aletPost = this.aletPost.bind(this);
     }
+    handleClickItems=(e)=>{
+        this.props.handleClickItems(e)
+    }
 
     aletPost(id, chek) {
         this.props.aletAppPost(id, chek)
     }
     render() {
-
+      //  console.log("Catalog this.props.cart",this.props.cart)
         return (
             <div>
                 <div id="category" className="row">
@@ -35,7 +38,7 @@ class Catalog extends React.Component {
                         {
 
                             !this.props.data.isLoadingProd &&
-                            <MaineContent {...this.props} />
+                            <MaineContent {...this.props} cart={this.props.data.cart} handleClickItems={this.handleClickItems} />
                         }
                     </div>
                 </div>
