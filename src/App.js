@@ -28,6 +28,7 @@ class App extends React.Component {
             currentFilter: ["Диагональ экрана", "Тип экрана", "Цвет корпуса"], //for tpv
             arrayFilter: [], //храню чекнутые параметры в фильтре
             filterToUrl: {},
+            cart:[],
 
         }
 

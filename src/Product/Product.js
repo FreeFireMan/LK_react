@@ -1,6 +1,7 @@
 import React from 'react'
 import PropBlock from './PropBlock'
 import VideoContent from "./VideoContent";
+import Wrapper from "../Wrapper/Wrapper";
 
 class Product extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class Product extends React.Component {
             isLoadingData: true,
             id: props.match.params.number,
         }
-
+        this.shouldComponentRender = this.shouldComponentRender.bind(this);
     }
 
 
@@ -36,16 +37,36 @@ class Product extends React.Component {
 
 
     }
+    shouldComponentRender() {
+        console.log("shouldComponentRender", this.props)
+        const {isLoadingData} = this.state.isLoadingData;
+        if (isLoadingData === true) return false;
+        // more tests
+        return true;
+    }
 
 
     render() {
+        if (!this.shouldComponentRender()) {
+            return <div>Loading</div>
+        }
 
         const {
             date, article, brand, manufacturer, model,
             series, ean, partNumber, baseImage,
-            annotation, instructions, videos
+            annotation, instructions, videos,images
         } = this.state.data;
 
+        let imagesItem = images?
+            images.map((item,i)=>{
+                return {"id":i+1,"src":item.name}
+            })
+            :images
+        if (baseImage) imagesItem.push({"id":0,"src":baseImage});
+
+        const inputProps = {
+            itemsSrc: imagesItem
+        };
 
         return (
 
@@ -54,7 +75,8 @@ class Product extends React.Component {
                     !this.state.isLoadingData &&
                     <div className="row">
                         <div className="col-md-5"> {/*for images*/}
-                            <img src={baseImage} className="img-fluid" alt="..."/>
+                           {/* <img src={baseImage} className="img-fluid" alt="..."/>*/}
+                           <Wrapper {  ...inputProps }/>
                         </div>
                         <div className="col-md-7 info-block"> {/*for content*/}
                             <div className="mt-3">
