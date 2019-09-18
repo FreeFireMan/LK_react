@@ -322,7 +322,7 @@ class App extends React.Component {
                     cart={this.state.cart}/>
 
                 <Switch>
-                    <Route path="/lk" component={PrivateArea}/>
+                    <Route path="/lk" render={(props)=>(<PrivateArea cart={this.state.cart} />)}/>
                     <Route path="/agreement" component={Agreement}/>
                     <Route exact path="/:number" component={Product}/>
                     <Route path="/" render={(props) => (

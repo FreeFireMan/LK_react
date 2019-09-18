@@ -19,7 +19,7 @@ class CardHolder extends Component {
     }
 
     render() {
-        const {id,baseImageThumbs,partNumber,article,baseImage} =this.props.items;
+        const {id,baseImageThumbs,partNumber,article,originBaseImage} =this.props.items;
         const {cart} =this.props;
         return (
             <div key={id} className="card m-1" style={{width: "260px"}}>
@@ -46,7 +46,7 @@ class CardHolder extends Component {
                     >
                         <img
                             className="image"
-                            src={baseImage}
+                            src={originBaseImage}
                             onClick={this.handleShowDialog}
                             style={{width: "70%"}}
                             alt="no image"
