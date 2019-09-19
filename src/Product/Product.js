@@ -59,7 +59,7 @@ class Product extends React.Component {
 
         let imagesItem = images?
             images.map((item,i)=>{
-                return {"id":i+1,"src":item.name}
+                return {"id":i+1,"src":item.thumbs}
             })
             :images
         if (baseImage) imagesItem.push({"id":0,"src":baseImage});

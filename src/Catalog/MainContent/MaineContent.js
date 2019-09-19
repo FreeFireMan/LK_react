@@ -11,7 +11,10 @@ class MaineContent extends React.Component {
             <div id="MaineContent" className="d-flex align-content-stretch flex-wrap">
                 {
                     this.props.data.prod_data.map( items =>
-                        <CardHolder key={items.id} items={items} cart={this.props.cart} handleClickItems={this.handleClickItems}/>)
+                        <CardHolder key={items.id}
+                                    items={items}
+                                    cart={this.props.cart}
+                                    handleClickItems={this.handleClickItems}/>)
                 }
             </div>
         )

@@ -37,8 +37,8 @@ class PrivateArea extends Component {
             ],
             toggleSubscribe: [],
         }
-
-       console.log("props in privateArea : ",props.cart)
+        this.toggleItemMenu = this.toggleItemMenu.bind(this)
+       console.log("props in privateArea : ",props)
     }
     toggleSubscribeItems=(e)=>{
         const {value,checked} = e.target;
@@ -75,7 +75,11 @@ class PrivateArea extends Component {
                         <div id="featured" className="col-md-9" style={{border: "1px solid #d4eeff"}}>
                             {
 
-                                <MaineContentPA {...this.state} saveProfile={this.saveProfile} toggleSubscribeItems={this.toggleSubscribeItems}  />
+                                <MaineContentPA {...this.state}
+                                                saveProfile={this.saveProfile}
+                                                toggleSubscribeItems={this.toggleSubscribeItems}
+                                                handleClickItems={this.props.handleClickItems}
+                                                cart={this.props.cart ? this.props.cart : []} />
                             }
                         </div>
                     </div>
