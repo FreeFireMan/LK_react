@@ -57,11 +57,14 @@ class Product extends React.Component {
             annotation, instructions, videos,images
         } = this.state.data;
 
-        let imagesItem = images?
-            images.map((item,i)=>{
-                return {"id":i+1,"src":item.thumbs}
-            })
-            :images
+        let imagesItem = images
+            ? images.map((item,i)=>{
+                return {"id":i+1,
+                    "src":(item.thumbs
+                        ?item.thumbs
+                        :item.name)}
+                })
+            : images;
         if (baseImage) imagesItem.push({"id":0,"src":baseImage});
 
         const inputProps = {
