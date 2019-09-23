@@ -53,7 +53,7 @@ class Product extends React.Component {
 
         const {
             date, article, brand, manufacturer, model,
-            series, ean, partNumber, baseImage,
+            series, ean, partNumber, baseImage,certificates,
             annotation, instructions, videos,images
         } = this.state.data;
 
@@ -106,10 +106,20 @@ class Product extends React.Component {
                                     <div dangerouslySetInnerHTML={{__html: annotation}}/>
                                 </div>}
                                 {  /* Вывод инструкций нужно подумать как реализовать*/}
-                                {/*  <div>
+                                  <div>
                                     <div><span className="catalog-element-span">Инструкции</span></div>
                                     { instructions.map(i => (
-                                        <a href={i.name}></a>
+                                        <a href={i.upload} key={i.id}>{i.nameInstruction}<br/></a>
+
+                                        )) }
+
+                                </div>
+                                {  /* Вывод Сертификаты нужно подумать как реализовать*/}
+                              {/*    <div>
+                                    <div><span className="catalog-element-span">Сертификаты</span></div>
+                                    { certificates.map(i => (
+                                        <a href={i.upload} key={i.id}>{i.nameCertificates}<br/></a>
+
                                         )) }
 
                                 </div>*/}
