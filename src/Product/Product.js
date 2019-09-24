@@ -47,14 +47,16 @@ class Product extends React.Component {
 
 
     render() {
+        console.log("props",this.props)
+        console.log("state",this.state)
         if (!this.shouldComponentRender()) {
             return <div>Loading</div>
         }
 
         const {
             date, article, brand, manufacturer, model,
-            series, ean, partNumber, baseImage,certificates,
-            annotation, instructions, videos,images
+            series, ean, partNumber, baseImageThumbs,baseImage,certificates,
+            annotation, instructions, videos,images,htmlContent
         } = this.state.data;
 
         let imagesItem = images
@@ -65,7 +67,8 @@ class Product extends React.Component {
                         :item.name)}
                 })
             : images;
-        if (baseImage) imagesItem.push({"id":0,"src":baseImage});
+        if (baseImage && baseImageThumbs) imagesItem.push({"id":0,"src"
+                :(baseImageThumbs)});
 
         const inputProps = {
             itemsSrc: imagesItem
@@ -94,8 +97,8 @@ class Product extends React.Component {
                                     className="catalog-element-span">Производитель: </span>{manufacturer}</div>
                                 <div className="catalog-element"><span
                                     className="catalog-element-span">Модель: </span>{model}</div>
-                                <div className="catalog-element"><span
-                                    className="catalog-element-span">Серия: </span>{series}</div>
+                               {series&& <div className="catalog-element"><span
+                                    className="catalog-element-span">Серия: </span>{series}</div>}
                                 <div className="catalog-element"><span
                                     className="catalog-element-span">Дата запуска: </span></div>
                                 {ean && <div className="catalog-element"><span
@@ -109,20 +112,29 @@ class Product extends React.Component {
                                   <div>
                                     <div><span className="catalog-element-span">Инструкции</span></div>
                                     { instructions.map(i => (
-                                        <a href={i.upload} key={i.id}>{i.nameInstruction}<br/></a>
+                                        <a href={i.upload} key={i.id}>{i.nameUpload}<br/></a>
 
                                         )) }
 
                                 </div>
                                 {  /* Вывод Сертификаты нужно подумать как реализовать*/}
-                              {/*    <div>
+                                  <div>
                                     <div><span className="catalog-element-span">Сертификаты</span></div>
                                     { certificates.map(i => (
-                                        <a href={i.upload} key={i.id}>{i.nameCertificates}<br/></a>
+                                        <a href={i.upload} key={i.id}>{i.nameUpload}<br/></a>
 
                                         )) }
 
-                                </div>*/}
+                                </div>
+                                {  /* Вывод htmlContent нужно подумать как реализовать*/}
+                                <div>
+                                    { htmlContent &&<div><span className="catalog-element-span">htmlContent</span></div>}
+                                    { htmlContent.map(i => (
+                                        <a href={i.upload} key={i.id}>{i.nameUpload}<br/></a>
+
+                                    )) }
+
+                                </div>
                                 {/*Вывод ссылок для  видосиков*/}
                                 <VideoContent data={videos}/>
                             </div>

@@ -11,7 +11,7 @@ class CardHolder extends Component {
     handleShowDialog = () => {
         this.setState({ isOpen: !this.state.isOpen });
 
-        console.log("cliked",this.props.items);
+       // console.log("cliked",this.props.items);
     };
 
     handleClickItems = (e) => {
@@ -19,7 +19,8 @@ class CardHolder extends Component {
     }
 
     render() {
-        const {id,baseImageThumbs,partNumber,article,originBaseImage} =this.props.items;
+        console.log("CardHolder",this.props);
+        const {id,baseImageThumbs,partNumber,article,originBaseImage,baseImage} =this.props.items;
         const {cart} =this.props;
         return (
             <div key={id} className="card m-1" style={{width: "260px"}}>
@@ -29,7 +30,7 @@ class CardHolder extends Component {
                 </label>
                 {/*<NavLink to={'/' + id}><img src={baseImageThumbs} className="card-img-top"
                                                              style={{width: "250px"}} alt="..."/></NavLink>*/}
-                    <img src={baseImageThumbs}
+                    <img src={baseImageThumbs? baseImageThumbs :baseImage}
                          onClick={this.handleShowDialog}
                          className="card-img-top"
                          style={{width: "250px"}} alt="..."/>
