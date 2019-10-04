@@ -195,7 +195,7 @@ class App extends React.Component {
 //-----------get request from api Content House-----------------------
     componentDidMount() {
         const {pageSize, filterFlag} = this.state;
-        GetData.getEndPoint("catalog")
+        GetData.getCatalog("catalog")
             .then(result => {
                 this.setState({
                     tree_data: result,
