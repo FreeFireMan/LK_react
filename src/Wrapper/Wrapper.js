@@ -37,10 +37,13 @@ class Wrapper extends React.Component {
                 activeItem += 1;
                 this.setState({ activeItem });
                 break;
+            default:
+                break;
         }
+
         //console.info('MenuContent->handleEvent()', { actionType, item, items });
 
-    }
+    };
 
     render(){
         let props = this.props;

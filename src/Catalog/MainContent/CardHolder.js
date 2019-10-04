@@ -1,17 +1,24 @@
 import React, {Component} from 'react'
 import {NavLink} from "react-router-dom";
-import Modal from "../../Modal/Modal";
+import Lightbox from 'react-image-lightbox';
+
 
 class CardHolder extends Component {
     constructor(props) {
         super(props)
-        this.state = { isOpen: false };
-            // this.handleClickItems = this.handleClickItems.bind(this);
-    }
-    handleShowDialog = () => {
-        this.setState({ isOpen: !this.state.isOpen });
+        this.state = {
+            isOpen: false,
+            photoIndex: 0,
 
-       // console.log("cliked",this.props.items);
+        };
+
+        // this.handleClickItems = this.handleClickItems.bind(this);
+    }
+
+    handleShowDialog = () => {
+        this.setState({isOpen: !this.state.isOpen});
+
+        // console.log("cliked",this.props.items);
     };
 
     handleClickItems = (e) => {
@@ -19,48 +26,41 @@ class CardHolder extends Component {
     }
 
     render() {
-        console.log("CardHolder",this.props);
-        const {id,baseImageThumbs,partNumber,article,originBaseImage,baseImage} =this.props.items;
-        const {cart} =this.props;
+        //console.log("CardHolder", this.props);
+        const {id, baseImageThumbs, partNumber, article, originBaseImage, baseImage} = this.props.items;
+        const {cart} = this.props;
+        const {isOpen, photoIndex} = this.state;
+        const images = [originBaseImage];
         return (
             <div key={id} className="card m-1" style={{width: "260px"}}>
                 <label className="containerForTree">
-                    <input type="checkbox" onChange={this.handleClickItems} value={id} checked={cart.includes(id) }/>
+                    <input type="checkbox" onChange={this.handleClickItems} value={id} checked={cart.includes(id)}/>
                     <span className="checkmark"></span>
                 </label>
                 {/*<NavLink to={'/' + id}><img src={baseImageThumbs} className="card-img-top"
                                                              style={{width: "250px"}} alt="..."/></NavLink>*/}
-                    <img src={baseImageThumbs? baseImageThumbs :baseImage}
-                         onClick={this.handleShowDialog}
-                         className="card-img-top"
-                         style={{width: "250px"}} alt="..."/>
-                {this.state.isOpen && (
-                    <dialog
-                        className="dialog"
-                        style={{ position: "fixed",
-                            zIndex: "1",
-                            border: "1px solid #d4eeff"}}
-                        open
+                <img src={baseImageThumbs ? baseImageThumbs : baseImage}
+                     onClick={this.handleShowDialog}
+                     className="card-img-top"
+                     style={{width: "250px"}} alt="..."/>
 
-
-                        onClick={this.handleShowDialog}
-                    >
-                        <img
-                            className="image"
-                            src={originBaseImage}
-                            onClick={this.handleShowDialog}
-                            style={{width: "70%"}}
-                            alt="no image"
+                <div>
+                    {isOpen && (
+                        <Lightbox
+                            mainSrc={images[photoIndex]}
+                            onCloseRequest={() => this.setState({isOpen: false})}
+                            imageTitle={article}
+                            enableZoom={false}
                         />
-                    </dialog>
-                )}
+                    )}
+                </div>
+
 
                 <div className="card-body">
                     <h6 className="card-title">Код производителя: {partNumber}</h6>
                     <p className="card-text"><NavLink
                         to={'/' + id}>{article}</NavLink></p>
 
-                    <Modal/>
                 </div>
             </div>
         )

@@ -5,14 +5,14 @@ import MaineContent from "./MainContent/MaineContent";
 class Catalog extends React.Component {
     constructor(props) {
         super(props);
-        this.aletPost = this.aletPost.bind(this);
+        this.selectedCategory = this.selectedCategory.bind(this);
     }
     handleClickItems=(e)=>{
         this.props.handleClickItems(e)
     }
 
-    aletPost(id, chek) {
-        this.props.aletAppPost(id, chek)
+    selectedCategory(id, chek) {
+        this.props.selectedCategory(id, chek)
     }
     render() {
       //  console.log("Catalog this.props.cart",this.props.cart)
@@ -26,7 +26,7 @@ class Catalog extends React.Component {
                     {
                         !this.props.data.isLoadingTree &&
                         <SideBar data={this.props.data.tree_data}
-                                 aletPost={this.aletPost}
+                                 selectedCategory={this.selectedCategory}
                                  filterFlag={this.props.data.filterFlag}
                         />
                     }

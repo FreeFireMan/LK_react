@@ -14,7 +14,7 @@ class SideBar extends React.Component {
     handleClick = (e) => {
         // console.log("SideBar value : "+e.target.value);
 
-        this.props.aletPost(e.target.value, e.target.checked);
+        this.props.selectedCategory(e.target.value, e.target.checked);
     }
 
 

@@ -12,11 +12,11 @@ class SelectedItems extends React.Component {
 
     handleClickItems = (e) => {
         this.props.handleClickItems(e)
-        const {value, checked} = e.target;
+        const {value} = e.target;
         const copySelectedItems = this.state.selectedItems;
 
         this.setState({
-            selectedItems: [...copySelectedItems.filter(val =>val.id != value)]
+            selectedItems: [...copySelectedItems.filter(val =>val.id !== value)]
         })
     }
 

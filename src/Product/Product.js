@@ -79,7 +79,7 @@ class Product extends React.Component {
             <div>
                 {
                     !this.state.isLoadingData &&
-                    <div className="row">
+                    <div className="row product">
                         <div className="col-md-5"> {/*for images*/}
                            {/* <img src={baseImage} className="img-fluid" alt="..."/>*/}
                            <Wrapper {  ...inputProps }/>
@@ -118,23 +118,23 @@ class Product extends React.Component {
 
                                 </div>
                                 {  /* Вывод Сертификаты нужно подумать как реализовать*/}
-                                  <div>
-                                    <div><span className="catalog-element-span">Сертификаты</span></div>
+                                 { certificates.length > 0 && <div>
+                                      <div><span className="catalog-element-span">Сертификаты</span></div>
                                     { certificates.map(i => (
                                         <a href={i.upload} key={i.id}>{i.nameUpload}<br/></a>
 
                                         )) }
 
-                                </div>
+                                </div>}
                                 {  /* Вывод htmlContent нужно подумать как реализовать*/}
-                                <div>
-                                    { htmlContent &&<div><span className="catalog-element-span">htmlContent</span></div>}
+                                {htmlContent.length > 0 &&<div>
+                                    <div><span className="catalog-element-span">htmlContent</span></div>
                                     { htmlContent.map(i => (
                                         <a href={i.upload} key={i.id}>{i.nameUpload}<br/></a>
 
                                     )) }
 
-                                </div>
+                                </div>}
                                 {/*Вывод ссылок для  видосиков*/}
                                 <VideoContent data={videos}/>
                             </div>
