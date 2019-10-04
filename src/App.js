@@ -14,7 +14,7 @@ import GetData from './service/GetData'
 
 class App extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             prod_data: [],
             isLoadingProd: true,
@@ -67,12 +67,15 @@ class App extends React.Component {
                     currentPage: result.page.number + 1,
                 })
             })
-            .catch(error => console.log("getPageOfProduct : " + error));
+            .catch(error => console.log("handleClickLogoHeader : ",error));
     };
     handleClickCarrentPage = (obj) => {
         let {val, changeState} = obj;
         const {currentPage, pageSize, filterFlag, totalPages, filterToUrl} = this.state;
-        val = currentPage + val >= 1 && currentPage + val <= totalPages ? val : 0;
+        val =
+            currentPage + val >= 1 && currentPage + val <= totalPages
+            ? val
+            : 0;
         GetData.getFirtsPageOfProduct(filterFlag, pageSize, (currentPage + val), filterToUrl)
             .then(result => {
                 this.setState({
@@ -82,7 +85,7 @@ class App extends React.Component {
                     currentPage: (changeState ? currentPage + val : currentPage)
                 })
             })
-            .catch(error => console.log("MyErrorInFetch : " + error))
+            .catch(error => console.log("handleClickCarrentPage : ",error))
     }
     handleDeleteFilter = () => {
         const {currentPage, pageSize, filterFlag} = this.state;
@@ -97,7 +100,7 @@ class App extends React.Component {
                     filterToUrl: {},
                 })
             })
-            .catch(error => console.log("getPageOfProduct : " + error));
+            .catch(error => console.log("handleDeleteFilter : ",error));
     };
 
     handleOnFilter = () => {
@@ -116,7 +119,7 @@ class App extends React.Component {
                     })
                 })
                 .catch(error =>
-                    console.log("handleOnFilter : " + error));
+                    console.log("handleOnFilter : ",error));
         }
     };
     filterUpDate = (e, chek) => {
@@ -158,7 +161,7 @@ class App extends React.Component {
                     })
                 })
                 .catch(error =>
-                    console.log("MyErrorInFetch tree : " + error));
+                    console.log("selectedCategory error : ",error));
             GetData.getFilter(id) //получаем фильтра на категории
                 .then(result => {
                     this.setState({
@@ -168,7 +171,7 @@ class App extends React.Component {
                     })
                 })
                 .catch(error => {
-                    console.log("getFilter error : " + error)
+                    console.log("getFilter error : ",error)
                     this.setState({
                         filter: [],
                         isLoadingFilter: true,
@@ -188,21 +191,21 @@ class App extends React.Component {
                         isLoadingFilter: true
                     })
                 })
-                .catch(error => console.log("MaletAppPost else if error : " + error));
+                .catch(error => console.log("unChek selectedCategory error : ",error));
         }
     }
 
 //-----------get request from api Content House-----------------------
     componentDidMount() {
         const {pageSize, filterFlag} = this.state;
-        GetData.getCatalog("catalog")
+        GetData.getCatalog()
             .then(result => {
                 this.setState({
                     tree_data: result,
                     isLoadingTree: false,
                 })
             })
-            .catch(error => console.log("getEndPoint catalog : " + error));
+            .catch(error => console.log("getEndPoint catalog : ",error));
         //------End load tree data---------------------------------------
         GetData.getFirtsPageOfProduct(filterFlag, pageSize, 1)
             .then(result => {
@@ -213,7 +216,7 @@ class App extends React.Component {
                     currentPage: result.page.number + 1,
                 })
             })
-            .catch(error => console.log("getPageOfProduct : " + error));
+            .catch(error => console.log("getPageOfProduct : ",error));
     }
 
 //------------------------------------------------------------------------
